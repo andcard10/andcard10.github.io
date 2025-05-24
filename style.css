@@ -54,3 +54,30 @@ h1, h2 {
     color: #555;
     margin-top: 5px;
 }
+
+#project-navigation {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+#project-navigation li {
+    margin-bottom: 8px;
+}
+
+#project-navigation li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+#project-navigation li a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Optional: Add some space above the targeted project when an anchor link is clicked */
+.project-entry {
+    /* ... your existing styles ... */
+    scroll-margin-top: 20px;
+}

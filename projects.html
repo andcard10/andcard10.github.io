@@ -20,10 +20,16 @@
     </nav>
 
     <main>
-        <section id="projects">
-            <h2>Projects</h2>
-
-            <article class="project-entry">
+        <section id="my-projects-list">
+            <h2>My Projects Showcase</h2>
+            <p>Select a project below to view details:</p>
+            <ul id="project-navigation">
+                <li><a href="#project-zero">Azure Project Zero: Basic Linux VM</a></li>
+                <li><a href="#project-one">Project One: [Your Next Project Title Here]</a></li>
+                <!-- Add more project links as you create them -->
+            </ul>
+            <hr>
+            <article id="project-zero" class="project-entry">
                 <h3>Azure "Project Zero": Deploying a Foundational Linux Virtual Machine</h3>
 
                 <h4>Objective:</h4>
@@ -130,11 +136,19 @@
                     <figcaption>Project Zero Network Diagram (Illustrative)</figcaption>
                 </figure>
                 <p><em>(A simple diagram showing the VNet, Subnet, VM, NSG allowing SSH, and connection from the internet.)</em></p>
-
-            </article> <!-- End of project-entry -->
-
-            <!-- You can add more <article class="project-entry"> sections for future projects -->
-
+            </article>
+            <hr>
+            <article id="project-one" class="project-entry">
+                <h3>Project One: [Your Next Project Title Here]</h3>
+                <h4>Objective:</h4>
+                <p>Description of your second project...</p>
+                <!-- ...add more content for your second project here... -->
+                <figure>
+                    <img src="images/project-one-diagram.png" alt="Diagram for Project One" style="max-width:100%; height:auto;">
+                    <figcaption>Project One Diagram</figcaption>
+                </figure>
+            </article>
+            <!-- Add more <article id="project-name" class="project-entry"> sections here -->
         </section>
     </main>
 
