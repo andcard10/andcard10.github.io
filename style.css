@@ -218,11 +218,13 @@ footer a:hover {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
     font-weight: bold;
 }
 .button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 /* Project Grid Styles */
@@ -328,6 +330,36 @@ footer a:hover {
 .close-button:hover {
     background-color: var(--primary-color);
     color: #fff;
+}
+
+/* Profile Photo Styles */
+.profile-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    margin-top: 10px;
+    background: #e9ecef;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Icon Spacing for Section Titles and Contact Info */
+h2 i, h3 i, h4 i {
+    margin-right: 8px;
+    color: #007bff;
+    vertical-align: middle;
+}
+
+.contact-info-header i,
+footer i {
+    margin-right: 5px;
+    color: #007bff;
+    vertical-align: middle;
 }
 
 /* Responsive adjustments */
