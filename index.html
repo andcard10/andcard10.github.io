@@ -3,57 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andres David Bravo Cardozo - Portfolio</title>
+    <title>Andres Bravo - Network & Systems Administrator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
 </head>
 <body>
     <header>
-        <h1>Andres David Bravo Cardozo</h1>
-        <p>Bilingual Network Engineer</p>
+        <div class="header-content">
+            <h1>ANDRES BRAVO</h1>
+            <p class="tagline">Network & Systems Administrator</p>
+            <div class="contact-info-header">
+                <a href="mailto:andresbravocardozo@gmail.com">andresbravocardozo@gmail.com</a> |
+                <a href="https://www.linkedin.com/in/andres-bravo-cardozo" target="_blank">LinkedIn Profile</a>
+            </div>
+        </div>
     </header>
 
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#about">About Me</a></li> <!-- Assuming 'about' is on the index page -->
-            <li><a href="#skills">Skills</a></li> <!-- Assuming 'skills' is on the index page -->
-            <li><a href="projects.html">Projects</a></li> <!-- Link to your new projects page -->
-            <!-- Add other links as needed, e.g., a contact link -->
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="experience.html">Experience & Education</a></li>
         </ul>
     </nav>
 
     <main>
         <section id="about">
-            <h2>About Me</h2>
-            <p>Welcome to my portfolio! I am a passionate Bilingual Network Engineer focused on [mention a key interest or skill].</p>
-            <!-- Add more about yourself here -->
+            <h2>Summary</h2>
+            <p>Experienced Technical Support Engineer with over 5 years of expertise in IT support, networking, and troubleshooting, specializing in Windows systems, network administration, and cloud environments (Microsoft Azure). Bilingual in English and Spanish, I excel at managing support tickets, creating knowledge base documentation, and collaborating with engineering teams to resolve complex issues, ensuring high customer satisfaction in remote work settings.</p>
         </section>
 
         <section id="skills">
-            <h2>Skills</h2>
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Windows Server Administration</h4>
+                    <ul>
+                        <li>Windows Server 2012, 2016, 2019</li>
+                        <li>OS patching</li>
+                        <li>Application framework management</li>
+                        <li>MAC OS, Linux Server</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Technical Troubleshooting</h4>
+                    <ul>
+                        <li>Tier 2 support</li>
+                        <li>Hardware/software issue resolution</li>
+                        <li>Proactive monitoring</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Cloud Computing</h4>
+                    <ul>
+                        <li>Microsoft Azure (Azure AD, VMs)</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Network Engineering</h4>
+                    <ul>
+                        <li>TCP/IP, DNS, DHCP</li>
+                        <li>Firewall and load balancer configuration</li>
+                        <li>Site-to-site VPNs</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Deployment & Monitoring</h4>
+                    <ul>
+                        <li>Deployment tools (experience with deployment processes)</li>
+                        <li>Proactive monitoring and alerting</li>
+                        <li>Familiarity with APM and SIEM tools</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Scripting & Automation</h4>
+                    <ul>
+                        <li>PowerShell</li>
+                        <li>Python</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Security & Compliance</h4>
+                    <ul>
+                        <li>Network security scans</li>
+                        <li>Certification management</li>
+                        <li>Adherence to regulatory requirements (e.g., HIPAA)</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Backup & Recovery</h4>
+                    <ul>
+                        <li>Datto SaaS Cloud Backups</li>
+                        <li>Veeam</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Security Operations</h4>
+                    <ul>
+                        <li>Threat prevention analysis</li>
+                        <li>Cybersecurity protocols</li>
+                        <li>Sophos Complete MDR</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Directory Services</h4>
+                    <ul>
+                        <li>Active Directory</li>
+                        <li>Azure Active Directory</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Monitoring Tools</h4>
+                    <ul>
+                        <li>Auvik, Datto RMM, PRTG</li>
+                        <li>SolarWinds, Grafana, InfluxDB</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Other Technical Skills</h4>
+                    <ul>
+                        <li>Office 365 Administration (Exchange, Teams, OneDrive, SharePoint)</li>
+                        <li>Documentation (IT Glue, Hudu)</li>
+                        <li>Ticket Management (Zendesk, Zoho)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="languages">
+            <h2>Languages</h2>
             <ul>
-                <li>Networking Fundamentals (TCP/IP, DNS, DHCP)</li>
-                <li>Linux Administration</li>
-                <li>Azure Cloud Basics</li>
-                <li>Language: English (Fluent)</li>
-                <li>Language: [Your Other Language] (Fluent)</li>
-                <!-- Add more skills -->
+                <li>English (Fluent)</li>
+                <li>Spanish (Native)</li>
+                <li>French (Conversational)</li>
             </ul>
         </section>
 
-        <section id="projects">
-            <h2>My Projects</h2>
-            <p>Welcome to my projects section! Here I document my hands-on experience with various networking and cloud technologies through personal labs and explorations.</p>
-            <p>These projects demonstrate my skills in [mention 2-3 key skill areas like network design, cloud deployment, troubleshooting].</p>
-            <p><a href="projects.html" class="button">View All Projects</a></p> <!-- Button-like link -->
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <ul>
+                <li>Sophos Networking Endpoint Protection Engineer - 2024</li>
+                <li>CISCO Certified Network Associate (CCNA v.7) - 2020</li>
+                <li>CISCO DevNet Associate - 2021</li>
+            </ul>
         </section>
 
-        <!-- You might have a contact section here too -->
+        <section id="soft-skills">
+            <h2>Soft Skills</h2>
+            <ul>
+                <li>Clear and Concise Communication</li>
+                <li>Active Listening</li>
+                <li>Remote Communication Proficiency</li>
+                <li>Problem Solving & Analytical Thinking</li>
+                <li>Collaboration & Teamwork</li>
+                <li>Time Management & Prioritization</li>
+                <li>Adaptability & Continuous Learning</li>
+                <li>Daily training of mind and body, Jiu-Jitsu, and meditation</li>
+            </ul>
+        </section>
 
+        <section id="portfolio-cta">
+            <h2>My Projects</h2>
+            <p>Explore some of the hands-on projects I've developed to further my skills and understanding of network and cloud technologies.</p>
+            <p><a href="projects.html" class="button">View My Projects</a></p>
+        </section>
     </main>
 
     <footer>
-        <p>© 2024 Andres David Bravo Cardozo. Connect with me on <a href="YOUR_LINKEDIN_URL_HERE" target="_blank">LinkedIn</a>.</p>
+        <p>© 2024 ANDRES BRAVO. All rights reserved.</p>
+        <p>
+            <a href="mailto:andresbravocardozo@gmail.com">andresbravocardozo@gmail.com</a> |
+            <a href="https://www.linkedin.com/in/andres-bravo-cardozo" target="_blank">LinkedIn</a>
+        </p>
     </footer>
 </body>
 </html>
