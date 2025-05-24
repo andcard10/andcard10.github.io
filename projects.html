@@ -20,21 +20,37 @@
     </nav>
 
     <main>
-        <section id="my-projects-list">
+        <section id="my-projects-showcase">
             <h2>My Projects Showcase</h2>
-            <p>Select a project below to view details:</p>
-            <ul id="project-navigation">
-                <li><a href="#project-zero">Azure Project Zero: Basic Linux VM</a></li>
-                <li><a href="#project-one">Project One: [Your Next Project Title Here]</a></li>
-                <!-- Add more project links as you create them -->
-            </ul>
-            <hr>
-            <article id="project-zero" class="project-entry">
-                <h3>Azure "Project Zero": Deploying a Foundational Linux Virtual Machine</h3>
+            <p>Here are summaries of some of the projects I've worked on. Click "View Details" to learn more about each one.</p>
 
+            <div class="project-grid">
+                <!-- Project Zero Card -->
+                <div class="project-card">
+                    <img src="images/azure-vm-basics.png" alt="Azure Project Zero Thumbnail" class="project-thumbnail">
+                    <h3>Azure Project Zero</h3>
+                    <p>A foundational Linux VM deployment in Azure to understand core IaaS components, VNet configuration, and SSH access.</p>
+                    <button class="button" onclick="showProjectDetails('project-zero-details')">View Details</button>
+                </div>
+
+                <!-- Project One Card (Example) -->
+                <div class="project-card">
+                    <img src="images/project-one-placeholder.png" alt="Project One Thumbnail" class="project-thumbnail">
+                    <h3>Project One: VNet Peering & Routing</h3>
+                    <p>Exploring inter-VNet connectivity in Azure using VNet peering and custom route tables for controlled traffic flow.</p>
+                    <button class="button" onclick="showProjectDetails('project-one-details')">View Details</button>
+                </div>
+                <!-- Add more project-card divs here for future projects -->
+            </div>
+
+            <hr class="details-separator" style="display:none;">
+
+            <!-- Project Zero Details -->
+            <article id="project-zero-details" class="project-detail-content" style="display:none;">
+                <button class="close-button" onclick="closeProjectDetails('project-zero-details')">Close Details ×</button>
+                <h3>Azure "Project Zero": Deploying a Foundational Linux Virtual Machine</h3>
                 <h4>Objective:</h4>
                 <p>To gain hands-on experience with core Azure Infrastructure as a Service (IaaS) components by deploying a single Linux Virtual Machine (VM) within a secure Virtual Network (VNet). This project focuses on understanding the VM creation process, network configuration basics, establishing SSH connectivity for remote management, and familiarizing myself with the Azure portal.</p>
-
                 <h4>Cloud Platform & Services Used:</h4>
                 <ul>
                     <li><strong>Cloud Provider:</strong> Microsoft Azure</li>
@@ -49,16 +65,13 @@
                         </ul>
                     </li>
                 </ul>
-
                 <h4>Deployment Steps & Configuration:</h4>
                 <p>The deployment process involved navigating the Azure portal and configuring the necessary parameters for the virtual machine and its associated resources.</p>
-
                 <h5>1. Prerequisite Setup (Performed prior):</h5>
                 <ul>
                     <li><strong>Resource Group Creation:</strong> A Resource Group named <code>rg-projectzero-lab</code> was created to organize all resources for this project.</li>
                     <li><strong>Virtual Network (VNet) Creation:</strong> A VNet named <code>vnet-projectzero</code> (e.g., with address space <code>10.0.0.0/16</code>) and a default subnet (e.g., <code>subnet-default</code> with address space <code>10.0.0.0/24</code>) were created within the <code>rg-projectzero-lab</code> Resource Group.</li>
                 </ul>
-
                 <h5>2. Virtual Machine Creation - "Basics" Tab:</h5>
                 <p>The following configurations were set on the "Basics" tab of the "Create a virtual machine" wizard, as shown in the screenshot below:</p>
                 <figure>
@@ -83,14 +96,12 @@
                     <li><strong>Public inbound ports:</strong> <code>SSH</code></li>
                     <li><strong>Azure Spot:</strong> <code>No</code></li>
                 </ul>
-
                 <h5>3. Virtual Machine Creation - "Disks" Tab (Configuration Summary):</h5>
                 <ul>
                     <li><strong>OS disk type:</strong> <code>Standard SSD</code></li>
                     <li><strong>OS disk size:</strong> <code>Image default</code></li>
                     <li>Other settings were left as default.</li>
                 </ul>
-
                 <h5>4. Virtual Machine Creation - "Networking" Tab (Configuration Summary):</h5>
                 <ul>
                     <li><strong>Virtual network:</strong> The previously created <code>vnet-projectzero</code> was selected.</li>
@@ -99,7 +110,6 @@
                     <li><strong>NIC network security group (NSG):</strong> <code>Basic</code> was selected. The rule to allow inbound SSH on port 22 was applied to this NSG.</li>
                     <li>Other settings were left as default.</li>
                 </ul>
-
                 <h5>5. Review + Create & Deployment:</h5>
                 <ul>
                     <li>After configuring all necessary tabs, the configuration was reviewed.</li>
@@ -107,7 +117,6 @@
                     <li>Clicked "Create" to initiate deployment.</li>
                     <li>The private key (<code>.pem</code> file) for SSH was downloaded and stored securely.</li>
                 </ul>
-
                 <h4>Post-Deployment & Verification:</h4>
                 <ol>
                     <li><strong>Locate Public IP:</strong> Noted the Public IP address of <code>vm-ubuntu-projectzero</code> from the Azure portal.</li>
@@ -117,7 +126,6 @@
                     </li>
                     <li><strong>Verification:</strong> Ran basic commands like <code>uname -a</code> and <code>ls</code> to confirm operational status.</li>
                 </ol>
-
                 <h4>Key Learnings:</h4>
                 <ul>
                     <li>Gained practical experience navigating the Azure portal for VM creation.</li>
@@ -126,10 +134,8 @@
                     <li>Reinforced the importance of secure private key management.</li>
                     <li>Became familiar with selecting VM sizes appropriate for free tier allowances.</li>
                 </ul>
-
                 <h4>Cost Management Note:</h4>
                 <p>The "Estimated monthly costs" in Azure reflect potential costs if resources run 24/7 outside free tier allowances. The <code>Standard B1s</code> VM is eligible for 750 free hours/month for 12 months. By <strong>stopping (deallocating)</strong> the VM when not in use, compute costs are minimized. Budget alerts were also configured.</p>
-
                 <h4>Diagram:</h4>
                 <figure>
                     <img src="images/project-zero-diagram.png" alt="Network Diagram for Project Zero" style="max-width:100%; height:auto;">
@@ -137,23 +143,86 @@
                 </figure>
                 <p><em>(A simple diagram showing the VNet, Subnet, VM, NSG allowing SSH, and connection from the internet.)</em></p>
             </article>
-            <hr>
-            <article id="project-one" class="project-entry">
-                <h3>Project One: [Your Next Project Title Here]</h3>
+
+            <!-- Project One Details -->
+            <article id="project-one-details" class="project-detail-content" style="display:none;">
+                <button class="close-button" onclick="closeProjectDetails('project-one-details')">Close Details ×</button>
+                <h3>Project One: VNet Peering & Routing in Azure</h3>
                 <h4>Objective:</h4>
-                <p>Description of your second project...</p>
-                <!-- ...add more content for your second project here... -->
+                <p>To implement and test VNet peering between two Azure Virtual Networks in the same region, configure custom User Defined Routes (UDRs) to direct traffic through a Network Virtual Appliance (NVA) or a specific gateway, and verify connectivity.</p>
+                <h4>Cloud Platform & Services Used:</h4>
+                <ul>
+                    <li>Azure Virtual Networks (VNet) & Subnets</li>
+                    <li>Azure Virtual Machines (for test VMs and potentially an NVA like VyOS)</li>
+                    <li>Azure VNet Peering</li>
+                    <li>Azure Route Tables (UDRs)</li>
+                    <li>Azure Network Security Groups (NSG)</li>
+                </ul>
+                <h4>High-Level Steps:</h4>
+                <ol>
+                    <li>Create two distinct VNets (e.g., VNet-A and VNet-B) with non-overlapping IP address spaces.</li>
+                    <li>Deploy test VMs in each VNet.</li>
+                    <li>Establish VNet peering between VNet-A and VNet-B.
+                        <ul>
+                            <li>Configure peering from VNet-A to VNet-B.</li>
+                            <li>Configure peering from VNet-B to VNet-A.</li>
+                        </ul>
+                    </li>
+                    <li>Test basic connectivity between VMs in the peered VNets.</li>
+                    <li>(Optional Advanced) Deploy a Network Virtual Appliance (NVA) like VyOS in one VNet.</li>
+                    <li>(Optional Advanced) Create Route Tables with UDRs to force traffic from one VNet to another through the NVA.</li>
+                    <li>Verify traffic flow and troubleshoot routing.</li>
+                </ol>
+                <h4>Key Learnings:</h4>
+                <ul>
+                    <li>Practical understanding of VNet peering setup and its benefits/limitations.</li>
+                    <li>Experience with creating and associating Route Tables.</li>
+                    <li>Knowledge of how User Defined Routes override default system routes.</li>
+                    <li>Troubleshooting network connectivity in a peered environment.</li>
+                </ul>
+                <h4>Diagram:</h4>
                 <figure>
-                    <img src="images/project-one-diagram.png" alt="Diagram for Project One" style="max-width:100%; height:auto;">
-                    <figcaption>Project One Diagram</figcaption>
+                    <img src="images/project-one-diagram.png" alt="Network Diagram for Project One" style="max-width:100%; height:auto;">
+                    <figcaption>Project One: VNet Peering Diagram</figcaption>
                 </figure>
+                <p><em>(Diagram showing two VNets, peering connection, test VMs, and potentially an NVA with UDRs.)</em></p>
             </article>
-            <!-- Add more <article id="project-name" class="project-entry"> sections here -->
+            <!-- Add more project-detail-content articles here -->
         </section>
     </main>
 
     <footer>
         <p>© 2024 Andres David Bravo Cardozo. Connect with me on <a href="YOUR_LINKEDIN_URL_HERE" target="_blank">LinkedIn</a>.</p>
     </footer>
+
+    <script>
+        let currentlyOpenDetail = null;
+        function showProjectDetails(projectId) {
+            if (currentlyOpenDetail && currentlyOpenDetail !== projectId) {
+                const openDetailElement = document.getElementById(currentlyOpenDetail);
+                if (openDetailElement) {
+                    openDetailElement.style.display = 'none';
+                }
+            }
+            const selectedProject = document.getElementById(projectId);
+            const separator = document.querySelector('.details-separator');
+            if (selectedProject) {
+                selectedProject.style.display = 'block';
+                if (separator) separator.style.display = 'block';
+                selectedProject.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                currentlyOpenDetail = projectId;
+            }
+        }
+        function closeProjectDetails(projectId) {
+            const selectedProject = document.getElementById(projectId);
+            const separator = document.querySelector('.details-separator');
+            if (selectedProject) {
+                selectedProject.style.display = 'none';
+                if (separator) separator.style.display = 'none';
+                currentlyOpenDetail = null;
+                document.getElementById('my-projects-showcase').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
 </body>
 </html>
