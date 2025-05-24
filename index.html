@@ -13,7 +13,10 @@
     </header>
 
     <nav>
-        <!-- We'll add navigation links later -->
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+        </ul>
     </nav>
 
     <main>
@@ -32,123 +35,7 @@
                 <li>Language: [Your Other Language] (Fluent)</li>
             </ul>
         </section>
-
-        <section id="projects">
-            <h2>Projects</h2>
-
-            <article class="project-entry">
-                <h3>Azure "Project Zero": Deploying a Foundational Linux Virtual Machine</h3>
-
-                <h4>Objective:</h4>
-                <p>To gain hands-on experience with core Azure Infrastructure as a Service (IaaS) components by deploying a single Linux Virtual Machine (VM) within a secure Virtual Network (VNet). This project focuses on understanding the VM creation process, network configuration basics, establishing SSH connectivity for remote management, and familiarizing myself with the Azure portal.</p>
-
-                <h4>Cloud Platform & Services Used:</h4>
-                <ul>
-                    <li><strong>Cloud Provider:</strong> Microsoft Azure</li>
-                    <li><strong>Core Services:</strong>
-                        <ul>
-                            <li>Azure Resource Groups</li>
-                            <li>Azure Virtual Networks (VNet) & Subnets</li>
-                            <li>Azure Network Security Groups (NSG)</li>
-                            <li>Azure Virtual Machines (Compute)</li>
-                            <li>Azure Public IP Addresses</li>
-                            <li>Azure Managed Disks</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h4>Deployment Steps & Configuration:</h4>
-                <p>The deployment process involved navigating the Azure portal and configuring the necessary parameters for the virtual machine and its associated resources.</p>
-
-                <h5>1. Prerequisite Setup (Performed prior):</h5>
-                <ul>
-                    <li><strong>Resource Group Creation:</strong> A Resource Group named <code>rg-projectzero-lab</code> was created to organize all resources for this project.</li>
-                    <li><strong>Virtual Network (VNet) Creation:</strong> A VNet named <code>vnet-projectzero</code> (e.g., with address space <code>10.0.0.0/16</code>) and a default subnet (e.g., <code>subnet-default</code> with address space <code>10.0.0.0/24</code>) were created within the <code>rg-projectzero-lab</code> Resource Group.</li>
-                </ul>
-
-                <h5>2. Virtual Machine Creation - "Basics" Tab:</h5>
-                <p>The following configurations were set on the "Basics" tab of the "Create a virtual machine" wizard, as shown in the screenshot below:</p>
-                <figure>
-                    <img src="images/azure-vm-basics.png" alt="Azure VM Creation - Basics Tab Configuration" style="max-width:100%; height:auto;">
-                    <figcaption>Image 1: Azure VM Creation - Basics Tab Configuration</figcaption>
-                </figure>
-                <ul>
-                    <li><strong>Subscription:</strong> <code>Azure subscription 1</code></li>
-                    <li><strong>Resource group:</strong> <code>rg-projectzero-lab</code></li>
-                    <li><strong>Virtual machine name:</strong> <code>vm-ubuntu-projectzero</code></li>
-                    <li><strong>Region:</strong> <code>Brazil South</code></li>
-                    <li><strong>Availability options:</strong> <code>No infrastructure redundancy required</code></li>
-                    <li><strong>Zone options:</strong> <code>Self-selected zone</code></li>
-                    <li><strong>Security type:</strong> <code>Standard</code></li>
-                    <li><strong>Image:</strong> <code>Ubuntu Server 24.04 LTS - Gen2</code></li>
-                    <li><strong>VM architecture:</strong> <code>x64</code></li>
-                    <li><strong>Size:</strong> <code>Standard B1s (1 vcpu, 1 GiB memory)</code></li>
-                    <li><strong>Authentication type:</strong> <code>SSH public key</code></li>
-                    <li><strong>Username:</strong> <code>azureuser</code></li>
-                    <li><strong>SSH key format:</strong> <code>RSA</code></li>
-                    <li><strong>Key pair name:</strong> <code>vm-ubuntu-projectzero_key_0524</code></li>
-                    <li><strong>Public inbound ports:</strong> <code>SSH</code></li>
-                    <li><strong>Azure Spot:</strong> <code>No</code></li>
-                </ul>
-
-                <h5>3. Virtual Machine Creation - "Disks" Tab (Configuration Summary):</h5>
-                <ul>
-                    <li><strong>OS disk type:</strong> <code>Standard SSD</code></li>
-                    <li><strong>OS disk size:</strong> <code>Image default</code></li>
-                    <li>Other settings were left as default.</li>
-                </ul>
-
-                <h5>4. Virtual Machine Creation - "Networking" Tab (Configuration Summary):</h5>
-                <ul>
-                    <li><strong>Virtual network:</strong> The previously created <code>vnet-projectzero</code> was selected.</li>
-                    <li><strong>Subnet:</strong> The <code>subnet-default</code> within <code>vnet-projectzero</code> was selected.</li>
-                    <li><strong>Public IP:</strong> A new dynamic Public IP address was automatically created and associated with the VM's Network Interface Card (NIC).</li>
-                    <li><strong>NIC network security group (NSG):</strong> <code>Basic</code> was selected. The rule to allow inbound SSH on port 22 was applied to this NSG.</li>
-                    <li>Other settings were left as default.</li>
-                </ul>
-
-                <h5>5. Review + Create & Deployment:</h5>
-                <ul>
-                    <li>After configuring all necessary tabs, the configuration was reviewed.</li>
-                    <li>The "Validation passed" message confirmed the configuration was valid.</li>
-                    <li>Clicked "Create" to initiate deployment.</li>
-                    <li>The private key (<code>.pem</code> file) for SSH was downloaded and stored securely.</li>
-                </ul>
-
-                <h4>Post-Deployment & Verification:</h4>
-                <ol>
-                    <li><strong>Locate Public IP:</strong> Noted the Public IP address of <code>vm-ubuntu-projectzero</code> from the Azure portal.</li>
-                    <li><strong>SSH Connection:</strong> Connected to the VM using the downloaded private key:
-                        <pre><code>ssh -i /path/to/your/vm-ubuntu-projectzero_key_0524.pem azureuser@&lt;VM_PUBLIC_IP_ADDRESS&gt;</code></pre>
-                        <p><em>(Note: Path and IP address are placeholders.)</em></p>
-                    </li>
-                    <li><strong>Verification:</strong> Ran basic commands like <code>uname -a</code> and <code>ls</code> to confirm operational status.</li>
-                </ol>
-
-                <h4>Key Learnings:</h4>
-                <ul>
-                    <li>Gained practical experience navigating the Azure portal for VM creation.</li>
-                    <li>Understood the relationship between Resource Groups, VNets, Subnets, NSGs, and VMs.</li>
-                    <li>Successfully configured a Linux VM for SSH access using public key authentication.</li>
-                    <li>Reinforced the importance of secure private key management.</li>
-                    <li>Became familiar with selecting VM sizes appropriate for free tier allowances.</li>
-                </ul>
-
-                <h4>Cost Management Note:</h4>
-                <p>The "Estimated monthly costs" in Azure reflect potential costs if resources run 24/7 outside free tier allowances. The <code>Standard B1s</code> VM is eligible for 750 free hours/month for 12 months. By <strong>stopping (deallocating)</strong> the VM when not in use, compute costs are minimized. Budget alerts were also configured.</p>
-
-                <h4>Diagram:</h4>
-                <figure>
-                    <img src="images/project-zero-diagram.png" alt="Network Diagram for Project Zero" style="max-width:100%; height:auto;">
-                    <figcaption>Project Zero Network Diagram (Illustrative)</figcaption>
-                </figure>
-                <p><em>(A simple diagram showing the VNet, Subnet, VM, NSG allowing SSH, and connection from the internet.)</em></p>
-
-            </article> <!-- End of project-entry -->
-
-            <!-- You can add more <article class="project-entry"> sections for future projects -->
-
-        </section>
+        <!-- Projects section removed -->
     </main>
 
     <footer>
