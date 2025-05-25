@@ -14,6 +14,7 @@ body {
     background-color: #f4f7f6;
     margin: 0;
     padding: 0;
+    padding-top: 58px; /* Adjust this value to match nav height (was 50px, now 58px for 14px padding + font size) */
 }
 
 h1, h2, h3, h4 {
@@ -91,15 +92,23 @@ header {
 }
 
 /* Navigation Styles */
+/* === NAVIGATION (Sticky/Fixed Nav Bar) === */
 nav {
     background-color: #34495e;
     padding: 0;
+    position: fixed; /* Makes the nav sticky */
+    top: 0;          /* Positions it at the top of the viewport */
+    left: 0;         /* Stretches it from the left */
+    width: 100%;     /* Makes it span the full viewport width */
+    z-index: 1000;   /* Ensures it stays on top of other content */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Add a shadow to give it depth */
 }
 nav ul {
     list-style-type: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     text-align: center;
+    max-width: 960px;
 }
 nav ul li {
     display: inline-block;
