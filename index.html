@@ -183,5 +183,17 @@
             <a href="https://www.linkedin.com/in/andres-bravo-cardozo" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
         </p>
     </footer>
+    <script>
+    let lastScrollY = window.scrollY;
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > lastScrollY && window.scrollY > 40) {
+            nav.classList.add('hide-nav');
+        } else {
+            nav.classList.remove('hide-nav');
+        }
+        lastScrollY = window.scrollY;
+    });
+    </script>
 </body>
 </html>

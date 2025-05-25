@@ -14,7 +14,7 @@ body {
     background-color: #f4f7f6;
     margin: 0;
     padding: 0;
-    padding-top: 58px; /* Adjust this value to match nav height (was 50px, now 58px for 14px padding + font size) */
+    padding-top: 48px; /* Reduce padding to match smaller nav height */
 }
 
 h1, h2, h3, h4 {
@@ -92,7 +92,7 @@ header {
 }
 
 /* Navigation Styles */
-/* === NAVIGATION (Sticky/Fixed Nav Bar) === */
+/* === NAVIGATION (Sticky/Auto-Hide on Scroll) === */
 nav {
     background-color: #34495e;
     padding: 0;
@@ -102,6 +102,10 @@ nav {
     width: 100%;     /* Makes it span the full viewport width */
     z-index: 1000;   /* Ensures it stays on top of other content */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Add a shadow to give it depth */
+    transition: top 0.3s;
+}
+nav.hide-nav {
+    top: -60px; /* Hide nav bar when scrolling down */
 }
 nav ul {
     list-style-type: none;
@@ -118,9 +122,10 @@ nav ul li a {
     display: block;
     color: #ecf0f1;
     text-align: center;
-    padding: 14px 20px;
+    padding: 10px 14px; /* Make nav buttons a bit smaller horizontally */
     text-decoration: none;
     transition: background-color 0.3s;
+    font-size: 0.98em;
 }
 nav ul li a:hover {
     background-color: #4a627a;
@@ -386,4 +391,28 @@ footer i {
         padding-left: 5px;
         padding-right: 5px;
     }
+    nav ul li a {
+        padding: 10px 8px;
+        font-size: 0.95em;
+    }
+    body {
+        padding-top: 44px;
+    }
 }
+
+/* === JS for Auto-Hide Nav Bar === */
+/* Add this script at the end of the <body> in your HTML files: */
+/*
+<script>
+let lastScrollY = window.scrollY;
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY && window.scrollY > 40) {
+        nav.classList.add('hide-nav');
+    } else {
+        nav.classList.remove('hide-nav');
+    }
+    lastScrollY = window.scrollY;
+});
+</script>
+*/
