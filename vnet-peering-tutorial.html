@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNet Peering Tutorial</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tutorial: Step-by-Step Guide to VNet Peering & Routing in Azure</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>Welcome! This tutorial will guide you through setting up VNet Peering between two Azure Virtual Networks, deploying test Virtual Machines, and optionally configuring User Defined Routes (UDRs) to direct traffic through a Network Virtual Appliance (NVA). By the end, you'll have a practical understanding of these core Azure networking concepts.</p>
+        </section>
+        <section>
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>An active Azure Subscription (a free trial is sufficient).</li>
+                <li>Access to the Azure Portal.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Architecture Overview</h2>
+            <p>We will build the following:</p>
+            <ul>
+                <li><b>VNet-A-Tutorial:</b> 10.0.0.0/16
+                    <ul>
+                        <li><b>Subnet-A1-Tutorial:</b> 10.0.1.0/24 (for VM-A)</li>
+                        <li><b>(Optional) NVA-Subnet-Tutorial:</b> 10.0.2.0/24 (for NVA)</li>
+                    </ul>
+                </li>
+                <li><b>VNet-B-Tutorial:</b> 10.1.0.0/16
+                    <ul>
+                        <li><b>Subnet-B1-Tutorial:</b> 10.1.1.0/24 (for VM-B)</li>
+                    </ul>
+                </li>
+                <li><b>VM-A-Tutorial:</b> Test VM in Subnet-A1-Tutorial.</li>
+                <li><b>VM-B-Tutorial:</b> Test VM in Subnet-B1-Tutorial.</li>
+                <li><b>(Optional) NVA-Tutorial:</b> A simple Linux VM acting as an NVA.</li>
+                <li><b>VNet Peering:</b> Connecting VNet-A-Tutorial and VNet-B-Tutorial.</li>
+                <li><b>(Optional) Route Table & UDR:</b> To route traffic from Subnet-B1-Tutorial through NVA-Tutorial.</li>
+            </ul>
+            <img src="images/project-one/Project%20one%20diagram.drawio.png" alt="Architecture Diagram" style="max-width:100%;margin:20px 0;">
+        </section>
+        <section>
+            <h2>1. Preparing Your Azure Environment</h2>
+            <h3>1.1. Sign in to the Azure Portal</h3>
+            <ol>
+                <li>Go to <a href="https://portal.azure.com" target="_blank">https://portal.azure.com</a> and sign in.</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%201.png" alt="Azure Portal Login">
+            <h3>1.2. Create a Resource Group</h3>
+            <ol>
+                <li>Search for <b>Resource groups</b> and click <b>+ Create</b>.</li>
+                <li>Fill in the details and select a region (e.g., Brazil South).</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%202.png" alt="Resource Groups">
+            <img src="images/project-one/vnet-peering-tutorial/img%203.png" alt="Resource Group Basics">
+        </section>
+        <section>
+            <h2>2. Creating Virtual Networks (VNets) and Subnets</h2>
+            <h3>2.1. Create VNet-A-Tutorial</h3>
+            <ol>
+                <li>Search for <b>Virtual networks</b> and click <b>+ Create</b>.</li>
+                <li>Fill in the basics and IP address space (10.0.0.0/16).</li>
+                <li>Add subnets: Subnet-A1-Tutorial (10.0.1.0/24) and optionally NVA-Subnet-Tutorial (10.0.2.0/24).</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%204.png" alt="Virtual Networks">
+            <img src="images/project-one/vnet-peering-tutorial/img%205.png" alt="VNet-A Basics">
+            <img src="images/project-one/vnet-peering-tutorial/img%206.png" alt="VNet-A IP Address">
+            <img src="images/project-one/vnet-peering-tutorial/img%207.png" alt="Add Subnet-A1">
+            <img src="images/project-one/vnet-peering-tutorial/img%208.png" alt="Add NVA Subnet">
+            <img src="images/project-one/vnet-peering-tutorial/img%209.png" alt="Subnets List">
+            <img src="images/project-one/vnet-peering-tutorial/img%2010.png" alt="Review VNet-A">
+            <h3>2.2. Create VNet-B-Tutorial</h3>
+            <ol>
+                <li>Repeat the process for VNet-B-Tutorial (10.1.0.0/16) and Subnet-B1-Tutorial (10.1.1.0/24).</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%2011.png" alt="VNet-B IP Address">
+            <img src="images/project-one/vnet-peering-tutorial/img%2012.png" alt="Review VNet-B">
+        </section>
+        <section>
+            <h2>3. Deploying Test Virtual Machines (VMs)</h2>
+            <h3>3.1. Deploy VM-A-Tutorial in VNet-A-Tutorial</h3>
+            <ol>
+                <li>Search for <b>Virtual machines</b> and click <b>+ Create</b>.</li>
+                <li>Fill in the basics and select VNet-A-Tutorial and Subnet-A1-Tutorial.</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%2013.png" alt="VMs List">
+            <img src="images/project-one/vnet-peering-tutorial/img%2014.png" alt="Create VM">
+            <img src="images/project-one/vnet-peering-tutorial/img%2015.png" alt="VM-A Basics">
+            <img src="images/project-one/vnet-peering-tutorial/img%2017.png" alt="VM-A Networking">
+            <img src="images/project-one/vnet-peering-tutorial/img%2018.png" alt="Review VM-A">
+            <h3>3.2. Deploy VM-B-Tutorial</h3>
+            <ol>
+                <li>Repeat the process for VM-B-Tutorial in VNet-B-Tutorial and Subnet-B1-Tutorial.</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/vm%20b.png" alt="Review VM-B">
+            <h3>3.3. Allow ICMP (Ping) in NSGs</h3>
+            <ol>
+                <li>Add inbound ICMP rules to both VMs' NSGs for ping tests.</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/img%2019.png" alt="Add Port Rule">
+            <img src="images/project-one/vnet-peering-tutorial/img%2020.png" alt="ICMP Rule">
+        </section>
+        <section>
+            <h2>4. Configuring VNet Peering</h2>
+            <h3>4.1. Create Peering from VNet-A-Tutorial to VNet-B-Tutorial</h3>
+            <ol>
+                <li>Go to VNet-A-Tutorial &gt; Peerings &gt; + Add. Fill in the details and select VNet-B-Tutorial as the remote VNet.</li>
+            </ol>
+            <img src="images/project-one/vnet-peering-tutorial/vnet%20peering.png" alt="Peering Config">
+            <h3>4.2. Verify Peering Status</h3>
+            <img src="images/project-one/vnet-peering-tutorial/peering%20statrus.png" alt="Peering Status A">
+            <img src="images/project-one/vnet-peering-tutorial/peering%20status%20b.png" alt="Peering Status B">
+        </section>
+        <section>
+            <h2>5. Testing Basic Connectivity</h2>
+            <h3>5.1. Get VM Private IP Addresses</h3>
+            <img src="images/project-one/vnet-peering-tutorial/private%20ip%20from%20vm%20a.png" alt="VM-A Private IP">
+            <img src="images/project-one/vnet-peering-tutorial/private%20ip%20from%20vm%20b.png" alt="VM-B Private IP">
+            <h3>5.2. Connect to VMs and Test Ping</h3>
+            <img src="images/project-one/vnet-peering-tutorial/vm%20a%20ssh.png" alt="SSH to VM-A">
+            <img src="images/project-one/vnet-peering-tutorial/test%20connection.png" alt="Ping from VM-A">
+            <img src="images/project-one/vnet-peering-tutorial/ping%20from%20vm%20b.png" alt="Ping from VM-B">
+        </section>
+        <section>
+            <h2>6. (Optional) Routing Traffic via a Network Virtual Appliance (NVA)</h2>
+            <h3>6.1. Deploy a Simple NVA (Linux VM)</h3>
+            <img src="images/project-one/vnet-peering-tutorial/nva%20config.png" alt="NVA Config">
+            <img src="images/project-one/vnet-peering-tutorial/nva%20settings.png" alt="NVA Settings">
+            <img src="images/project-one/vnet-peering-tutorial/vms.png" alt="VMs List with NVA">
+            <img src="images/project-one/vnet-peering-tutorial/nic%20nva.png" alt="NVA NIC">
+            <img src="images/project-one/vnet-peering-tutorial/ip%20forwarding.png" alt="Enable IP Forwarding">
+            <h3>6.2. Create a Route Table</h3>
+            <img src="images/project-one/vnet-peering-tutorial/route%20tables.png" alt="Route Tables">
+            <img src="images/project-one/vnet-peering-tutorial/create%20route%20table.png" alt="Create Route Table">
+            <img src="images/project-one/vnet-peering-tutorial/create%20route%20table%20review.png" alt="Review Route Table">
+            <h3>6.3. Add a User Defined Route (UDR)</h3>
+            <img src="images/project-one/vnet-peering-tutorial/route%20creation%20in%20route%20table.png" alt="Add UDR">
+            <h3>6.4. Associate the Route Table with Subnet-B1-Tutorial</h3>
+            <img src="images/project-one/vnet-peering-tutorial/associate%20route.png" alt="Associate Route Table">
+            <h3>6.5. Test Traffic Flow via NVA</h3>
+            <img src="images/project-one/vnet-peering-tutorial/img%2029.png" alt="Traceroute Example">
+            <p>You should see the NVA's private IP as a hop in the traceroute output.</p>
+        </section>
+        <section>
+            <h2>7. Clean Up Resources</h2>
+            <ol>
+                <li>Go to <b>Resource groups</b>, select your resource group, and click <b>Delete resource group</b> to remove all resources.</li>
+            </ol>
+        </section>
+        <section>
+            <h2>Conclusion</h2>
+            <p>Congratulations! You've successfully configured VNet Peering, deployed VMs, and optionally routed traffic through an NVA in Azure. This project covers fundamental Azure networking skills.</p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 ANDRES BRAVO. All rights reserved.</p>
+    </footer>
+</body>
+</html>
