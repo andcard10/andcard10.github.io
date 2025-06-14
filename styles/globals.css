@@ -1,0 +1,29 @@
+/* ...existing code... */
+
+:root {
+  --background-color: #18181b;
+  --foreground-color: #e5e7eb;
+  --primary-color: #2563eb;
+  --secondary-color: #1e293b;
+  --accent-color: #f59e42;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--foreground-color);
+}
+
+/* Example for links and buttons */
+a, button {
+  color: var(--primary-color);
+}
+
+a:hover, button:hover {
+  color: var(--accent-color);
+}
+
+header, footer {
+  background: var(--secondary-color);
+}
+
+/* ...existing code... */
