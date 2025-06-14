@@ -1,4 +1,4 @@
----
+
 
 **Tutorial: Step-by-Step Guide to VNet Peering & Routing in Azure**
 
@@ -28,7 +28,6 @@ We will build the following:
 
 ![Architecture Diagram](images/project-one/Project%20one%20diagram.drawio.png)
 
----
 
 **Section 1: Preparing Your Azure Environment**
 
@@ -181,11 +180,18 @@ A resource group is a container that holds related resources for an Azure soluti
 
 1. Connect to VM-A-Tutorial (SSH/RDP).  
    ![SSH to VM-A](images/project-one/vnet-peering-tutorial/vm%20a%20ssh.png)
-2. From VM-A-Tutorial, ping VM-B-Tutorial's private IP.  
-   ![Ping from VM-A](images/project-one/vnet-peering-tutorial/test%20connection.png)
+2. From VM-A-Tutorial, ping VM-B-Tutorial's private IP:
+
+```bash
+ping <VM-B-Tutorial-Private-IP>
+```
+
 3. Connect to VM-B-Tutorial.
-4. From VM-B-Tutorial, ping VM-A-Tutorial's private IP.  
-   ![Ping from VM-B](images/project-one/vnet-peering-tutorial/ping%20from%20vm%20b.png)
+4. From VM-B-Tutorial, ping VM-A-Tutorial's private IP:
+
+```bash
+ping <VM-A-Tutorial-Private-IP>
+```
 
 ---
 
@@ -261,6 +267,11 @@ To avoid ongoing charges, delete the resources you created. The easiest way is t
 3. On the "Overview" page for the resource group, click **Delete resource group**.
 4. Type the resource group name (VNet-Peering-Tutorial-RG) to confirm deletion.
 5. Click **Delete**.
+
+```azurecli
+# Example Azure CLI command to delete the resource group
+az group delete --name VNet-Peering-Tutorial-RG --yes --no-wait
+```
 
 It might take a few minutes for all resources to be deleted.
 
