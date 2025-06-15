@@ -47,6 +47,14 @@
                     <h3>Azure Project Zero</h3>
                     <p>A foundational Linux VM deployment in Azure to understand core IaaS components, VNet configuration, and SSH access.</p>
                     <button class="button" onclick="showProjectDetails('project-zero-details')">View Details</button>
+                    <a
+                        class="button"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fa fa-book mr-2"></i>Read Tutorial
+                    </a>
                 </div>
 
                 <!-- Project One Card (Example) -->
@@ -57,11 +65,14 @@
                     <button class="button" onclick="showProjectDetails('project-one-details')">View Details</button>
                     <a
                         class="button"
+                        style="background: linear-gradient(90deg, #2563eb 0%, #f59e42 100%); color: #fff; display: inline-flex; align-items: center; gap: 0.5em; border: none;"
                         href="https://github.com/andcard10/andcard10.github.io/blob/main/project-one-vnet-peering-tutorial.md"
-                        target="_blank" 
+                        target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="Read the full tutorial on GitHub"
                     >
-                        <i class="fa fa-book mr-2"></i>Read Tutorial
+                        <i class="fas fa-book-open"></i>
+                        <span>Read Tutorial</span>
                     </a>
                 </div>
                 <!-- Add more project-card divs here for future projects -->
@@ -71,7 +82,9 @@
 
             <!-- Project Zero Details -->
             <article id="project-zero-details" class="project-detail-content" style="display:none;">
-                <button class="close-button" onclick="closeProjectDetails('project-zero-details')">Close Details ×</button>
+                <button class="close-button" onclick="closeProjectDetails('project-zero-details')" aria-label="Close Details">
+                    <i class="fas fa-times"></i>
+                </button>
                 <h3>Azure "Project Zero": Deploying a Foundational Linux Virtual Machine</h3>
                 <h4>Objective:</h4>
                 <p>To gain hands-on experience with core Azure Infrastructure as a Service (IaaS) components by deploying a single Linux Virtual Machine (VM) within a secure Virtual Network (VNet). This project focuses on understanding the VM creation process, network configuration basics, establishing SSH connectivity for remote management, and familiarizing myself with the Azure portal.</p>
@@ -170,7 +183,9 @@
 
             <!-- Project One Details -->
             <article id="project-one-details" class="project-detail-content" style="display:none;">
-                <button class="close-button" onclick="closeProjectDetails('project-one-details')">Close Details ×</button>
+                <button class="close-button" onclick="closeProjectDetails('project-one-details')" aria-label="Close Details">
+                    <i class="fas fa-times"></i>
+                </button>
                 <h3>Project One: VNet Peering & Routing in Azure</h3>
                 <h4>Objective:</h4>
                 <p>To implement and test VNet peering between two Azure Virtual Networks in the same region, configure custom User Defined Routes (UDRs) to direct traffic through a Network Virtual Appliance (NVA) or a specific gateway, and verify connectivity.</p>
