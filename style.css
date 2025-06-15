@@ -220,7 +220,6 @@ section li {
 
 /* Portfolio CTA Styles */
 #portfolio-cta {
-    text-align: center;
     background-color: var(--box-bg-alt);
     color: var(--dark-text);
     border-radius: var(--border-radius);
