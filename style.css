@@ -358,12 +358,12 @@ footer a:hover {
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #23272f 60%, #2563eb 100%);
-    border: none;
-    color: #fff;
-    padding: 10px 13px;
+    border: 1.5px solid #444c5c;
+    color: #b3d1ff;
+    padding: 7px 12px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.25em;
+    font-size: 1.2em;
     line-height: 1;
     font-weight: bold;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
@@ -376,6 +376,7 @@ footer a:hover {
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25);
     outline: 2px solid #f59e42;
     outline-offset: 2px;
+    border: 1.5px solid var(--accent-color);
     transform: scale(1.08) rotate(8deg);
 }
 .close-button:active {
