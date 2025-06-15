@@ -220,17 +220,38 @@ section li {
 
 /* Portfolio CTA Styles */
 #portfolio-cta {
-    text-align: center;
-    background-color: var(--box-bg-alt);
+    background: var(--box-bg-alt);
     color: var(--dark-text);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
     padding: 2rem 1.5rem;
     margin-bottom: 2rem;
+    text-align: center;
 }
-#portfolio-cta .button {
+#portfolio-cta p {
+    color: var(--dark-text);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+#portfolio-cta .button, #portfolio-cta a.button {
+    background: var(--primary-color);
+    color: #fff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8em 2em;
+    font-weight: 700;
     font-size: 1.1em;
-    padding: 12px 25px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+}
+#portfolio-cta .button:hover, #portfolio-cta a.button:hover {
+    background: #1746a2;
+    color: #fff !important;
+    box-shadow: 0 4px 16px 0 rgba(37,99,235,0.18);
 }
 
 /* Experience & Education Page Styles */
