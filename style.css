@@ -220,12 +220,17 @@ section li {
 
 /* Portfolio CTA Styles */
 #portfolio-cta {
+    text-align: center;
     background-color: var(--box-bg-alt);
     color: var(--dark-text);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     padding: 2rem 1.5rem;
     margin-bottom: 2rem;
+}
+#portfolio-cta .button {
+    font-size: 1.1em;
+    padding: 12px 25px;
 }
 
 /* Experience & Education Page Styles */
