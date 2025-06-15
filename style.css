@@ -227,6 +227,10 @@ section li {
     font-size: 1.1em;
     padding: 12px 25px;
 }
+#portfolio-cta .button {
+    font-size: 1.1em;
+    padding: 12px 25px;
+}
 
 /* Experience & Education Page Styles */
 .job-entry, .education-entry {
