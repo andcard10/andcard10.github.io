@@ -169,13 +169,44 @@ p { color: var(--light-text); margin-bottom: 1rem; }
 /* Footer simplified */
 footer { background: transparent; color: var(--light-text); text-align: center; padding: 2rem 0 1.25rem 0; border-top: none; }
 
-/* Small-screen tweaks */
+/* Project card actions: align buttons consistently */
+.project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 1rem;
+}
+.project-actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+.project-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+.project-card .button {
+    margin: 0;
+}
+.project-card .button[disabled], .project-card button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: rgba(255,255,255,0.03);
+    color: var(--light-text) !important;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
 @media (max-width: 600px) {
     body { padding-top: 24px; }
     .header-content h1 { font-size: 1.75rem; }
     section { padding: 1.25rem; }
     nav ul { gap: 8px; }
     nav a { padding: 8px 10px; font-size: 0.95rem; }
+    .project-actions { flex-direction: column; width: 100%; }
+    .project-actions .button, .project-actions a.button { width: 100%; }
 }
 
 /* === JS for Auto-Hide Nav Bar === */
