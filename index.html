@@ -121,6 +121,23 @@
   .skill-pct{font-size:10px;color:var(--mid);min-width:32px;text-align:right;}
   .avatar{width:52px;height:52px;border-radius:50%;border:1px solid var(--border);filter:grayscale(100%);}
 
+  /* EXPERIENCE */
+  .job-block{border:1px solid var(--border);margin-bottom:1px;}
+  .job-header{padding:14px 16px;cursor:pointer;display:flex;gap:12px;align-items:baseline;transition:background .1s;}
+  .job-header:hover{background:rgba(255,255,255,.03);}
+  .job-title{flex:1;font-size:12px;font-weight:700;letter-spacing:-.01em;}
+  .job-dates{font-size:10px;color:var(--mid);white-space:nowrap;}
+  .job-body{padding:0 16px 14px 16px;display:none;}
+  .job-body.open{display:block;}
+  .job-body ul{margin:0;padding-left:1.2em;list-style:square;}
+  .job-body ul li{font-size:11px;color:var(--mid);line-height:1.7;margin-bottom:2px;}
+  .job-body ul li::marker{color:var(--dim);}
+  .edu-row{display:flex;gap:12px;align-items:baseline;padding:11px 14px;border-bottom:1px solid var(--border);font-size:11px;}
+  .edu-row:last-child{border-bottom:none;}
+  .edu-title{flex:1;font-weight:700;}
+  .edu-place{font-size:10px;color:var(--mid);}
+  .edu-year{font-size:10px;color:var(--mid);white-space:nowrap;}
+
   /* FOOTER */
   footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--dim);letter-spacing:.15em;}
   .status-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s infinite;box-shadow:0 0 4px var(--green);}
@@ -154,6 +171,7 @@
   <button class="tab" onclick="switchTab('automations',this)">// AUTOMATIONS</button>
   <button class="tab" onclick="switchTab('art',this)">// ART + MUSIC</button>
   <button class="tab" onclick="switchTab('about',this)">// ABOUT</button>
+  <button class="tab" onclick="switchTab('experience',this)">// EXPERIENCE</button>
 </nav>
 
 <main>
@@ -263,6 +281,75 @@
     <div class="skill-row"><span class="skill-name">Code</span><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div><span class="skill-pct">88%</span></div>
   </div>
 
+  <!-- EXPERIENCE -->
+  <div id="panel-experience" class="panel">
+    <div class="section-label">ENGINEERING EXPERIENCE</div>
+    <div class="job-block">
+      <div class="job-header" onclick="toggleJob(this)"><span class="job-title">IT Support Level 2 · Iternal Networks (Remote)</span><span class="job-dates">Las Vegas, USA · Jun 2024 – Oct 2024</span></div>
+      <div class="job-body"><ul>
+        <li>Planned and executed IT projects for clients — Networks/WiFi, servers, computers, printers, backups, emails.</li>
+        <li>Implemented threat prevention via Sophos Complete MDR under HIPAA compliance for hospital clients.</li>
+        <li>Managed user access in Azure Active Directory and local Windows Active Directory.</li>
+        <li>Led data migration from file shares to SharePoint using MigrationWiz.</li>
+        <li>Monitored multi-client network performance with Auvik and Datto RMM; proactive issue resolution.</li>
+        <li>Maintained network infrastructure documentation in IT Glue.</li>
+        <li>Resolved complex Tier 2 issues via proactive troubleshooting and efficient ticket management.</li>
+      </ul></div>
+    </div>
+    <div class="job-block">
+      <div class="job-header" onclick="toggleJob(this)"><span class="job-title">IT Helpdesk · ITFIRM.COM (Remote)</span><span class="job-dates">Charlotte, USA · Oct 2023 – Jun 2024</span></div>
+      <div class="job-body"><ul>
+        <li>Managed support tickets via Zendesk and Zoho; supported 11–100 users per client across SMBs.</li>
+        <li>Led SharePoint migrations with MigrationWiz; improved document access and collaboration.</li>
+        <li>Implemented cybersecurity protocols to protect client IT assets.</li>
+        <li>Automated routine tasks with PowerShell scripts.</li>
+        <li>Monitored networks with Auvik, Datto RMM, and Liongard; maintained VMware ESXi and Hyper-V environments.</li>
+        <li>Configured firewalls (Sonicwall, Fortigate, Watchguard, Unifi), switches (Cisco, Dell, Unifi), and Unifi WiFi.</li>
+        <li>Maintained comprehensive client IT documentation in Hudu.</li>
+      </ul></div>
+    </div>
+    <div class="job-block">
+      <div class="job-header" onclick="toggleJob(this)"><span class="job-title">Network Engineer · Airtek Solutions C.A.</span><span class="job-dates">Venezuela · Jan 2021 – Oct 2023</span></div>
+      <div class="job-body"><ul>
+        <li>Maintained ISP backbone — OSPF, IS-IS, BGP, Route Reflector, PBR, MPLS, Segment Routing, L2/L3VPN, VXLAN, LACP, VRRP, IPSec, RADIUS, QinQ, SNMP.</li>
+        <li>Deployed CDN caches (Netflix, Google, Facebook, CDN77) and IXP/PNI connections at Equinix Miami and Bogota.</li>
+        <li>Operated BGP full routing table with route maps, communities, and prefix lists.</li>
+        <li>Managed Linux servers for Ansible automation and Python/NodeJS scripting.</li>
+        <li>Built Grafana + InfluxDB network monitoring system.</li>
+        <li>Maintained FTTH network — smart OLTs, airOS, Ubiquiti UniFi.</li>
+        <li>Vendors: Cisco (ASR, NX), Juniper (EX, QFX, MX), Huawei (NE8k, CE, OLTs), Arista, Mikrotik, Datacom.</li>
+        <li>Automated tasks via Python, Netmiko, Ansible, Paramiko, APIs, Node-Red.</li>
+      </ul></div>
+    </div>
+    <div class="job-block">
+      <div class="job-header" onclick="toggleJob(this)"><span class="job-title">Network Engineer · Fulldata Comunicaciones C.A.</span><span class="job-dates">Venezuela · Jul 2019 – Dec 2020</span></div>
+      <div class="job-body"><ul>
+        <li>Configured and maintained multivendor equipment — Mikrotik and Ubiquiti routers, switches, APs.</li>
+        <li>Diagnosed and resolved complex network incidents, minimising client downtime.</li>
+        <li>Deployed smart OLT devices, airOS, and Ubiquiti UniFi systems.</li>
+      </ul></div>
+    </div>
+    <div class="job-block">
+      <div class="job-header" onclick="toggleJob(this)"><span class="job-title">Internship · Network Access Engineer · Digitel Corporation</span><span class="job-dates">Venezuela · Jul 2018 – Dec 2018</span></div>
+      <div class="job-body"><ul>
+        <li>On-site troubleshooting and repair of network equipment across multiple nodes.</li>
+        <li>Installed and commissioned network equipment for infrastructure expansion.</li>
+        <li>Maintained GSM and LTE access networks.</li>
+      </ul></div>
+    </div>
+
+    <br/>
+    <div class="section-label">EDUCATION & CERTS</div>
+    <div style="border:1px solid var(--border);">
+      <div class="edu-row"><span class="edu-title">B.S. Telecommunications Engineering</span><span class="edu-place">Universidad Rafael Urdaneta · Venezuela</span><span class="edu-year">2013–2020</span></div>
+      <div class="edu-row"><span class="edu-title">CCNA v.7</span><span class="edu-place">Cisco Networking Academy · Telnet S.A.</span><span class="edu-year">2020</span></div>
+      <div class="edu-row"><span class="edu-title">CCNP v.8</span><span class="edu-place">Cisco Networking Academy · Telnet S.A.</span><span class="edu-year">2021</span></div>
+      <div class="edu-row"><span class="edu-title">DevNet Associate</span><span class="edu-place">Cisco Networking Academy · Cloudlamb</span><span class="edu-year">2021</span></div>
+      <div class="edu-row"><span class="edu-title">Sophos Endpoint Protection Engineer</span><span class="edu-place">Sophos · USA</span><span class="edu-year">2024</span></div>
+      <div class="edu-row"><span class="edu-title">English (Fluent) · French (Conversational)</span><span class="edu-place">Berlitz · Alliance Française</span><span class="edu-year">2007–2017</span></div>
+    </div>
+  </div>
+
 </main>
 
 <footer>
@@ -273,6 +360,12 @@
 
 <script>
 const GH = 'andcard10';
+
+// ── EXPERIENCE ACCORDION ──
+function toggleJob(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
 
 // ── TAB ──
 function switchTab(id, el) {
