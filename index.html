@@ -10,17 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Albert+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --washi:#F7F2EA;       /* warm paper */
-    --washi2:#F1EAE0;      /* deeper paper */
+    --washi:#F7F2EA;
+    --washi2:#F1EAE0;
     --card:#FDFBF6;
-    --sumi:#1C1B18;        /* ink */
+    --sumi:#1C1B18;
     --body-c:#6E6A61;
-    --shu:#BF5B38;         /* vermilion terracotta */
+    --shu:#BF5B38;
     --shu-deep:#A54A2B;
-    --blush:#F0DCCC;       /* soft circle */
-    --line:#E4DccD;
+    --blush:#F0DCCC;
+    --line:#E4DCCD;
     --line2:#D8CFBE;
-    --dark:#24221E;        /* warm sumi dark */
+    --dark:#24221E;
   }
   html{scroll-behavior:smooth}
   body{font-family:'Albert Sans',sans-serif;background:var(--washi);color:var(--body-c);margin:0}
@@ -30,12 +30,11 @@
   .jp{font-family:'Zen Kaku Gothic New',sans-serif}
   .eyebrow{font-family:'Zen Kaku Gothic New',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--shu-deep);text-transform:uppercase;font-weight:500}
   .eyebrow-dim{font-family:'Zen Kaku Gothic New',sans-serif;font-size:11px;letter-spacing:.26em;color:#A29A8C;text-transform:uppercase;font-weight:500}
-  .container-site{max-width:1240px;margin:0 auto;padding:0 40px}
-  .lead{font-size:17px;line-height:1.85;color:var(--body-c)}
+  .container-site{max-width:1240px;margin:0 auto;padding:0 clamp(20px,4.5vw,40px)}
+  .lead{font-size:clamp(15.5px,2.2vw,17px);line-height:1.85;color:var(--body-c)}
 
   .hairline{flex:1;height:1px;align-self:center;background:var(--line2)}
 
-  /* buttons — quiet rectangles, like the reference */
   .btn{transition:transform .22s cubic-bezier(.2,.9,.3,1.4),opacity .2s ease;font-weight:500;border-radius:6px;font-family:'Zen Kaku Gothic New',sans-serif;letter-spacing:.04em}
   .btn:hover{transform:translateY(-2px)}
   .btn:active{transform:translateY(0);opacity:.9}
@@ -47,17 +46,24 @@
   .nav-link:hover{opacity:.55}
   .nav-link:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
 
-  /* ticker — washi strip between hairlines */
+  /* mobile drawer */
+  .mnav{position:fixed;inset:0;z-index:60;background:rgba(28,27,24,.45);opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .mnav.open{opacity:1;pointer-events:auto}
+  .mnav-panel{position:absolute;top:0;right:0;width:min(320px,84vw);height:100%;background:var(--washi);padding:26px 28px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+  .mnav.open .mnav-panel{transform:none}
+  .mnav-link{font-family:'Zen Kaku Gothic New',sans-serif;font-size:21px;font-weight:500;color:var(--sumi);padding:16px 0;border-bottom:1px solid var(--line);display:block}
+  .mnav-link:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+  @media (min-width:768px){#mnav-open{display:none!important}}
+
   .ticker{overflow:hidden;background:var(--washi2);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
   .ticker-track{display:flex;width:max-content;animation:tick 32s linear infinite}
   .ticker-track span{font-family:'Zen Kaku Gothic New',sans-serif;font-size:12px;letter-spacing:.22em;color:#8D8575;padding:15px 0;font-weight:500}
   .ticker-track b{color:var(--shu-deep);font-weight:700}
   @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* tiles — paper cards with hairlines */
   .tile{
     background:var(--card);border:1px solid var(--line);border-radius:10px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
     transition:transform .25s cubic-bezier(.2,.9,.3,1.4);
     cursor:pointer;position:relative;
   }
@@ -65,14 +71,15 @@
   .tile:active{transform:translateY(-1px)}
   .tile:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
   .tile svg{color:var(--shu)}
-  .tile span{font-size:12.5px;color:var(--body-c);font-weight:500;letter-spacing:.03em}
+  .tile span{font-size:11.5px;color:var(--body-c);font-weight:500;letter-spacing:.02em;text-align:center;padding:0 6px}
 
-  /* steps — ensō rings joined by stitching */
   .step-cell{position:relative;display:flex;justify-content:center}
-  .step-cell:not(:last-child)::after{
-    content:"";position:absolute;top:50%;left:calc(50% + 44px);width:calc(100% - 88px);
-    background-image:repeating-linear-gradient(90deg,var(--line2) 0 2px,transparent 2px 10px);
-    height:1.5px;transform:translateY(-50%);
+  @media (min-width:768px){
+    .step-cell:not(:last-child)::after{
+      content:"";position:absolute;top:50%;left:calc(50% + 44px);width:calc(100% - 88px);
+      background-image:repeating-linear-gradient(90deg,var(--line2) 0 2px,transparent 2px 10px);
+      height:1.5px;transform:translateY(-50%);
+    }
   }
   .step-num{
     width:56px;height:56px;display:flex;align-items:center;justify-content:center;
@@ -80,7 +87,7 @@
     font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;font-weight:500;letter-spacing:.05em;
   }
 
-  .quote-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:36px 30px 38px}
+  .quote-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:clamp(26px,4vw,36px) clamp(22px,3.5vw,30px) 38px}
 
   .feature-icon{
     width:46px;height:46px;background:#F5E7DA;border-radius:9999px;
@@ -91,19 +98,25 @@
   .footer-link:hover{opacity:.6}
   .footer-link:focus-visible{outline:2px solid #D98A66;outline-offset:2px}
 
-  /* vertical japanese accent */
   .tategaki{
     writing-mode:vertical-rl;text-orientation:upright;
     font-family:'Zen Kaku Gothic New',sans-serif;letter-spacing:.5em;font-weight:500;
   }
 
-  /* industry cards */
   .ind-card{transition:transform .35s cubic-bezier(.22,1,.36,1)}
   .ind-card:hover{transform:translateY(-5px)}
   .ind-card .ghost-k{color:#F7F2EA;opacity:.09;transition:opacity .35s ease}
   .ind-card:hover .ghost-k{opacity:.2}
 
-  /* chart motions (transform/opacity only) */
+  /* booking form */
+  .field{
+    width:100%;background:transparent;border:1px solid var(--line2);border-radius:8px;
+    padding:13px 15px;font-family:'Albert Sans',sans-serif;font-size:15px;color:var(--sumi);
+  }
+  .field::placeholder{color:#B4AA97}
+  .field:focus{outline:2px solid var(--shu);outline-offset:0;border-color:var(--shu)}
+  .flabel{font-family:'Zen Kaku Gothic New',sans-serif;font-size:11px;letter-spacing:.18em;color:#8D8575;text-transform:uppercase;font-weight:500;display:block;margin-bottom:8px}
+
   .sweep{animation:sweepx 10s ease-in-out infinite alternate}
   @keyframes sweepx{from{transform:translateX(0)}to{transform:translateX(392px)}}
   .pulse-dot{transform-box:fill-box;transform-origin:center;animation:halo 3s ease-out infinite}
@@ -111,7 +124,6 @@
   .bob{animation:bobber 5.5s ease-in-out infinite alternate}
   @keyframes bobber{from{transform:translateY(0)}to{transform:translateY(-5px)}}
 
-  /* reveal (hidden state applied by JS only after first scroll) */
   .reveal.pre{opacity:0;transform:translateY(26px)}
   .reveal.in{opacity:1;transform:none;transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
 
@@ -126,96 +138,112 @@
 
 <!-- ================= NAV ================= -->
 <header style="border-bottom:1px solid var(--line);background:rgba(247,242,234,.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:40">
-  <div class="container-site flex items-center justify-between" style="height:74px">
-    <a href="#" class="flex items-baseline gap-3 nav-link" aria-label="Saku AI home">
+  <div class="container-site flex items-center justify-between" style="height:68px">
+    <a href="index.html" class="flex items-baseline gap-3 nav-link" aria-label="Saku AI home">
       <span class="jp" style="font-size:17px;font-weight:700;letter-spacing:.42em;color:var(--shu)">SAKU</span>
       <span class="jp" style="font-size:12px;font-weight:500;letter-spacing:.3em;color:var(--sumi)">AI</span>
     </a>
-    <nav class="hidden md:flex items-center gap-10" aria-label="Main">
+    <nav class="hidden md:flex items-center gap-9" aria-label="Main">
       <a class="nav-link" href="#engine">Engine</a>
       <a class="nav-link" href="#method">Method</a>
       <a class="nav-link" href="#industries">Industries</a>
-      <a class="nav-link" href="#proof">Proof</a>
+      <a class="nav-link" href="workshop.html" style="color:var(--shu-deep)">Workshop</a>
     </nav>
-    <a href="#contact" class="btn btn-shu hidden md:inline-flex items-center justify-center" style="padding:11px 26px;font-size:13.5px">Book a demo</a>
+    <div class="flex items-center gap-3">
+      <a href="#book" class="btn btn-shu inline-flex items-center justify-center" style="padding:10px 20px;font-size:13px">Book a demo</a>
+      <button id="mnav-open" class="md:hidden" aria-label="Open menu" aria-expanded="false" style="width:42px;height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:transparent;border:1px solid var(--line2);border-radius:8px;cursor:pointer">
+        <span style="width:18px;height:1.5px;background:var(--sumi);display:block"></span>
+        <span style="width:18px;height:1.5px;background:var(--sumi);display:block"></span>
+        <span style="width:18px;height:1.5px;background:var(--sumi);display:block"></span>
+      </button>
+    </div>
   </div>
 </header>
 
+<!-- mobile drawer -->
+<div id="mnav" class="mnav" aria-hidden="true">
+  <div class="mnav-panel">
+    <div class="flex items-center justify-between" style="margin-bottom:26px">
+      <span class="jp" style="font-size:15px;font-weight:700;letter-spacing:.42em;color:var(--shu)">SAKU</span>
+      <button id="mnav-close" aria-label="Close menu" style="width:40px;height:40px;background:transparent;border:1px solid var(--line2);border-radius:8px;cursor:pointer;color:var(--sumi);font-size:17px">✕</button>
+    </div>
+    <nav aria-label="Mobile">
+      <a class="mnav-link" href="#engine">Engine</a>
+      <a class="mnav-link" href="#method">Method</a>
+      <a class="mnav-link" href="#industries">Industries</a>
+      <a class="mnav-link" href="#proof">Proof</a>
+      <a class="mnav-link" href="workshop.html" style="color:var(--shu-deep)">Workshop</a>
+    </nav>
+    <a href="#book" class="btn btn-shu mnav-book text-center" style="padding:16px 20px;font-size:15px;margin-top:28px">Book a demo</a>
+    <span class="tategaki jp" aria-hidden="true" style="margin:auto auto 0 0;font-size:15px;color:#C9BFB0;padding-top:30px">咲く成長</span>
+  </div>
+</div>
+
 <!-- ================= HERO ================= -->
 <section class="relative overflow-hidden" style="background:var(--washi)">
-  <!-- soft rising circle, like the reference -->
-  <div id="blush" class="absolute pointer-events-none" aria-hidden="true" style="right:-14%;top:-34%;width:920px;height:920px;border-radius:9999px;background:var(--blush)"></div>
-  <!-- ghost bloom glyph -->
-  <span id="ghostk" class="jp absolute pointer-events-none" aria-hidden="true" style="left:-40px;bottom:-110px;font-size:380px;font-weight:700;line-height:1;color:rgba(191,91,56,.05)">咲</span>
-  <!-- vertical accent: saku seichō — blooming growth -->
+  <div id="blush" class="absolute pointer-events-none" aria-hidden="true" style="right:clamp(-260px,-14vw,-120px);top:-24%;width:clamp(420px,72vw,920px);height:clamp(420px,72vw,920px);border-radius:9999px;background:var(--blush)"></div>
+  <span id="ghostk" class="jp absolute pointer-events-none" aria-hidden="true" style="left:-40px;bottom:-110px;font-size:clamp(200px,42vw,380px);font-weight:700;line-height:1;color:rgba(191,91,56,.05)">咲</span>
   <span class="tategaki absolute hidden xl:block" aria-hidden="true" style="left:18px;top:150px;font-size:13px;color:#B4AA97">咲く成長</span>
 
-  <div class="container-site relative grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] items-center gap-14" style="padding-top:104px;padding-bottom:100px">
+  <div class="container-site relative grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] items-center" style="gap:clamp(40px,5vw,56px);padding-top:clamp(56px,9vw,104px);padding-bottom:clamp(60px,9vw,100px)">
     <div>
-      <p class="reveal eyebrow" style="font-size:11.5px">AIグロースチーム · HIGH-TICKET ONLY</p>
+      <p class="reveal eyebrow" style="font-size:clamp(10px,1.6vw,11.5px)">AIグロースチーム · HIGH-TICKET ONLY</p>
 
-      <h1 class="display reveal" style="font-size:86px;line-height:1.12;margin-top:30px;font-weight:500">
+      <h1 class="display reveal" style="font-size:clamp(46px,10vw,86px);line-height:1.12;margin-top:clamp(20px,4vw,30px);font-weight:500">
         Growth,<br><span style="color:var(--shu)">engineered.</span>
       </h1>
 
-      <p class="lead reveal" style="max-width:470px;margin-top:28px;font-size:18px">
+      <p class="lead reveal" style="max-width:470px;margin-top:clamp(20px,4vw,28px);font-size:clamp(16px,2.4vw,18px)">
         Saku AI deploys a coordinated team of AI agents — strategy, creative, distribution, lead intelligence — tuned for industries where a single closed deal moves real money.
       </p>
 
-      <div class="reveal flex flex-wrap items-center gap-5" style="margin-top:44px">
-        <a href="#contact" class="btn btn-shu inline-flex items-center justify-center" style="padding:16px 34px;font-size:15px">Book a demo</a>
-        <span class="jp" style="font-size:13px;letter-spacing:.12em;color:#9A9184">saku.ai</span>
+      <div class="reveal flex flex-wrap items-center gap-4" style="margin-top:clamp(28px,5vw,44px)">
+        <a href="#book" class="btn btn-shu inline-flex items-center justify-center" style="padding:16px 34px;font-size:15px">Book a demo</a>
+        <a href="workshop.html" class="btn btn-sumi inline-flex items-center gap-2 justify-center" style="padding:15px 26px;font-size:14.5px">
+          Start with the workshop
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
+        </a>
       </div>
 
-      <p class="reveal jp" style="font-size:11.5px;color:#A29A8C;margin-top:30px;letter-spacing:.24em">NO RETAINER THEATER · FIXED SCOPES · USD PRICING</p>
+      <p class="reveal jp" style="font-size:11.5px;color:#A29A8C;margin-top:clamp(22px,4vw,30px);letter-spacing:.24em">NO RETAINER THEATER · FIXED SCOPES · USD PRICING</p>
     </div>
 
-    <!-- growth-curve panel (signature) -->
-    <div class="reveal relative hidden lg:block" aria-hidden="true">
-      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 28px 22px;box-shadow:0 1px 2px rgba(28,27,24,.03),0 18px 44px rgba(28,27,24,.05)">
-        <div class="flex items-center justify-between" style="padding:0 6px 18px">
-          <span class="jp" style="font-size:12px;letter-spacing:.24em;font-weight:700;color:var(--sumi)">成長曲線 — GROWTH CURVE</span>
+    <!-- growth-curve panel -->
+    <div class="reveal relative" aria-hidden="true">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(18px,3vw,30px) clamp(16px,3vw,28px) clamp(14px,2.5vw,22px);box-shadow:0 1px 2px rgba(28,27,24,.03),0 18px 44px rgba(28,27,24,.05)">
+        <div class="flex items-center justify-between flex-wrap gap-2" style="padding:0 6px 16px">
+          <span class="jp" style="font-size:clamp(10.5px,1.7vw,12px);letter-spacing:.24em;font-weight:700;color:var(--sumi)">成長曲線 — GROWTH CURVE</span>
           <span class="jp" style="font-size:10.5px;letter-spacing:.14em;font-weight:500;color:#A29A8C">CLIENT AVG · 12 MO</span>
         </div>
         <svg width="100%" viewBox="0 0 520 380" fill="none" style="display:block">
-          <!-- grid -->
           <g stroke="#EDE5D7" stroke-width="1">
             <path d="M40 20V330M136 20V330M232 20V330M328 20V330M424 20V330M508 20V330"/>
             <path d="M40 68H508M40 133H508M40 198H508M40 263H508M40 330H508"/>
           </g>
-          <!-- baseline dashed (before saku) -->
           <path d="M40 292 C 90 288, 120 284, 165 282" stroke="#BAB1A0" stroke-width="2.5" stroke-dasharray="1 7" stroke-linecap="round"/>
-          <!-- area fill -->
           <path d="M165 282 C 230 274, 250 240, 300 212 C 345 187, 370 160, 412 122 C 438 99, 458 82, 480 62 L480 330 L165 330 Z" fill="#BF5B38" opacity=".06"/>
-          <!-- growth curve -->
           <path d="M165 282 C 230 274, 250 240, 300 212 C 345 187, 370 160, 412 122 C 438 99, 458 82, 480 62" stroke="#BF5B38" stroke-width="3.5" stroke-linecap="round"/>
-          <!-- projection -->
           <path d="M480 62 C 494 50, 502 42, 512 32" stroke="#A54A2B" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
-          <!-- sweep line -->
           <g class="sweep"><path d="M52 20V330" stroke="#BF5B38" stroke-width="1.5" opacity=".22"/></g>
-          <!-- deploy marker -->
           <path d="M165 282V330" stroke="#A54A2B" stroke-width="1.5" stroke-dasharray="3 5"/>
           <text x="165" y="352" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="3" font-weight="500" fill="#A54A2B">DEPLOY</text>
-          <!-- data points -->
           <circle cx="165" cy="282" r="5" fill="#FDFBF6" stroke="#1C1B18" stroke-width="2.2"/>
           <circle cx="300" cy="212" r="5" fill="#FDFBF6" stroke="#1C1B18" stroke-width="2.2"/>
           <circle cx="412" cy="122" r="5" fill="#FDFBF6" stroke="#1C1B18" stroke-width="2.2"/>
           <circle class="pulse-dot" cx="480" cy="62" r="14" stroke="#BF5B38" stroke-width="1.5" fill="none"/>
           <circle cx="480" cy="62" r="6" fill="#BF5B38" stroke="#1C1B18" stroke-width="1.6"/>
-          <!-- annotation pill -->
           <g class="bob">
             <rect x="340" y="32" width="132" height="28" rx="14" fill="#1C1B18"/>
             <path d="M472 46 L480 62" stroke="#1C1B18" stroke-width="1.5"/>
             <text x="406" y="50" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="11.5" letter-spacing="1.5" font-weight="500" fill="#F7F2EA">PIPELINE +214%</text>
           </g>
-          <!-- axis labels -->
           <text x="88" y="374" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="2" font-weight="500" fill="#A29A8C">Q1</text>
           <text x="184" y="374" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="2" font-weight="500" fill="#A29A8C">Q2</text>
           <text x="280" y="374" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="2" font-weight="500" fill="#A29A8C">Q3</text>
           <text x="376" y="374" text-anchor="middle" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="2" font-weight="500" fill="#A29A8C">Q4</text>
           <text x="40" y="12" font-family="'Zen Kaku Gothic New',sans-serif" font-size="10.5" letter-spacing="2" font-weight="500" fill="#A29A8C">QUALIFIED PIPELINE · USD</text>
         </svg>
-        <div class="flex items-center justify-between" style="border-top:1px solid var(--line);margin-top:18px;padding:14px 6px 0">
+        <div class="flex items-center justify-between flex-wrap gap-2" style="border-top:1px solid var(--line);margin-top:16px;padding:13px 6px 0">
           <span class="jp" style="font-size:10.5px;letter-spacing:.18em;font-weight:500;color:#A29A8C">SPEC / GROWTH ENGINE MK-II</span>
           <span class="jp" style="font-size:10.5px;letter-spacing:.18em;font-weight:500;color:var(--shu-deep)">CAL. 07-2026</span>
         </div>
@@ -227,106 +255,106 @@
 <!-- ================= TICKER ================= -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>PIPELINE&nbsp;<b>+214%</b>&nbsp;&nbsp;／&nbsp;&nbsp;COST PER LEAD&nbsp;<b>−38%</b>&nbsp;&nbsp;／&nbsp;&nbsp;QUALIFIED MEETINGS&nbsp;<b>×3.1</b>&nbsp;&nbsp;／&nbsp;&nbsp;AD WASTE&nbsp;<b>−52%</b>&nbsp;&nbsp;／&nbsp;&nbsp;FIRST FOLLOW-UP&nbsp;<b>&lt;60S</b>&nbsp;&nbsp;／&nbsp;&nbsp;SHOW-UP RATE&nbsp;<b>87%</b>&nbsp;&nbsp;／&nbsp;&nbsp;</span>
-    <span>PIPELINE&nbsp;<b>+214%</b>&nbsp;&nbsp;／&nbsp;&nbsp;COST PER LEAD&nbsp;<b>−38%</b>&nbsp;&nbsp;／&nbsp;&nbsp;QUALIFIED MEETINGS&nbsp;<b>×3.1</b>&nbsp;&nbsp;／&nbsp;&nbsp;AD WASTE&nbsp;<b>−52%</b>&nbsp;&nbsp;／&nbsp;&nbsp;FIRST FOLLOW-UP&nbsp;<b>&lt;60S</b>&nbsp;&nbsp;／&nbsp;&nbsp;SHOW-UP RATE&nbsp;<b>87%</b>&nbsp;&nbsp;／&nbsp;&nbsp;</span>
+    <span>PIPELINE&nbsp;<b>+214%</b>&nbsp;&nbsp;·&nbsp;&nbsp;COST PER LEAD&nbsp;<b>−38%</b>&nbsp;&nbsp;·&nbsp;&nbsp;QUALIFIED MEETINGS&nbsp;<b>×3.1</b>&nbsp;&nbsp;·&nbsp;&nbsp;AD WASTE&nbsp;<b>−52%</b>&nbsp;&nbsp;·&nbsp;&nbsp;FIRST FOLLOW-UP&nbsp;<b>&lt;60S</b>&nbsp;&nbsp;·&nbsp;&nbsp;SHOW-UP RATE&nbsp;<b>87%</b>&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+    <span>PIPELINE&nbsp;<b>+214%</b>&nbsp;&nbsp;·&nbsp;&nbsp;COST PER LEAD&nbsp;<b>−38%</b>&nbsp;&nbsp;·&nbsp;&nbsp;QUALIFIED MEETINGS&nbsp;<b>×3.1</b>&nbsp;&nbsp;·&nbsp;&nbsp;AD WASTE&nbsp;<b>−52%</b>&nbsp;&nbsp;·&nbsp;&nbsp;FIRST FOLLOW-UP&nbsp;<b>&lt;60S</b>&nbsp;&nbsp;·&nbsp;&nbsp;SHOW-UP RATE&nbsp;<b>87%</b>&nbsp;&nbsp;·&nbsp;&nbsp;</span>
   </div>
 </div>
 
 <!-- ================= THE ENGINE ================= -->
-<section id="engine" style="background:var(--washi);padding-top:112px;padding-bottom:104px">
+<section id="engine" style="background:var(--washi);padding-top:clamp(64px,10vw,112px);padding-bottom:clamp(60px,9vw,104px)">
   <div class="container-site">
     <p class="reveal eyebrow text-center">仕組み — THE ENGINE</p>
-    <h2 class="display reveal text-center" style="font-size:50px;margin-top:18px">The machine we build.</h2>
-    <p class="lead reveal text-center mx-auto" style="max-width:620px;margin-top:22px">
+    <h2 class="display reveal text-center" style="font-size:clamp(32px,6vw,50px);margin-top:16px">The machine we build.</h2>
+    <p class="lead reveal text-center mx-auto" style="max-width:620px;margin-top:20px">
       Complete growth systems shipped for clients — and the specialist agents bolted inside each one. Every part earns its place or gets removed.
     </p>
 
-    <div class="reveal flex items-center gap-6" style="margin-top:76px">
+    <div class="reveal flex items-center gap-6" style="margin-top:clamp(48px,7vw,76px)">
       <span class="eyebrow" style="font-size:11px">OPERATING SYSTEMS</span>
       <span class="hairline"></span>
-      <span class="eyebrow-dim">SHIPPED FOR CLIENTS</span>
+      <span class="eyebrow-dim hidden sm:block">SHIPPED FOR CLIENTS</span>
     </div>
-    <div id="os-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" style="margin-top:32px"></div>
+    <div id="os-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" style="margin-top:30px"></div>
 
-    <div class="reveal flex items-center gap-6" style="margin-top:80px">
+    <div class="reveal flex items-center gap-6" style="margin-top:clamp(52px,8vw,80px)">
       <span class="eyebrow" style="font-size:11px">AGENTS</span>
       <span class="hairline"></span>
-      <span class="eyebrow-dim">SPECIALISTS IN THE CREW</span>
+      <span class="eyebrow-dim hidden sm:block">SPECIALISTS IN THE CREW</span>
     </div>
-    <div id="agent-grid" class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2.5" style="margin-top:32px"></div>
+    <div id="agent-grid" class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2.5" style="margin-top:30px"></div>
   </div>
 </section>
 
 <!-- ================= METHOD ================= -->
-<section id="method" style="background:var(--washi2);padding-top:108px;padding-bottom:128px;border-top:1px solid var(--line)">
+<section id="method" style="background:var(--washi2);padding-top:clamp(60px,9.5vw,108px);padding-bottom:clamp(64px,10vw,128px);border-top:1px solid var(--line)">
   <div class="container-site">
     <p class="reveal eyebrow text-center">型 — THE METHOD</p>
-    <h2 class="display reveal text-center" style="font-size:50px;margin-top:18px">How it runs.</h2>
-    <p class="lead reveal text-center mx-auto" style="max-width:590px;margin-top:22px">
+    <h2 class="display reveal text-center" style="font-size:clamp(32px,6vw,50px);margin-top:16px">How it runs.</h2>
+    <p class="lead reveal text-center mx-auto" style="max-width:590px;margin-top:20px">
       Four strokes, one cycle — from market map to closed deal, your AI crew drives the whole pipeline while your people drive the business.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-y-14 reveal" style="margin-top:92px;overflow:hidden">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-y-12 reveal" style="margin-top:clamp(48px,8vw,90px);overflow:hidden">
       <div class="text-center px-4">
         <div class="step-cell"><span class="step-num">一</span></div>
-        <h3 class="display" style="font-size:20px;font-weight:700;margin-top:26px">Chart the market</h3>
-        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:280px;margin-left:auto;margin-right:auto">The Strategy Agent maps your buyers, competitors, and price bands into a growth plan with numbers attached — not vibes.</p>
+        <h3 style="font-size:20px;font-weight:700;color:var(--sumi);margin-top:24px">Chart the market</h3>
+        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:300px;margin-left:auto;margin-right:auto">The Strategy Agent maps your buyers, competitors, and price bands into a growth plan with numbers attached — not vibes.</p>
       </div>
       <div class="text-center px-4">
         <div class="step-cell"><span class="step-num">二</span></div>
-        <h3 class="display" style="font-size:20px;font-weight:700;margin-top:26px">Manufacture creative</h3>
-        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:280px;margin-left:auto;margin-right:auto">On-brand ads, emails, and landing pages produced at machine pace — no agency retainer, no three-week revision loops.</p>
+        <h3 style="font-size:20px;font-weight:700;color:var(--sumi);margin-top:24px">Manufacture creative</h3>
+        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:300px;margin-left:auto;margin-right:auto">On-brand ads, emails, and landing pages produced at machine pace — no agency retainer, no three-week revision loops.</p>
       </div>
       <div class="text-center px-4">
         <div class="step-cell"><span class="step-num">三</span></div>
-        <h3 class="display" style="font-size:20px;font-weight:700;margin-top:26px">Distribute with force</h3>
-        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:280px;margin-left:auto;margin-right:auto">Campaigns launch and self-optimize across paid, social, and email — budget flows to whatever is actually converting.</p>
+        <h3 style="font-size:20px;font-weight:700;color:var(--sumi);margin-top:24px">Distribute with force</h3>
+        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:300px;margin-left:auto;margin-right:auto">Campaigns launch and self-optimize across paid, social, and email — budget flows to whatever is actually converting.</p>
       </div>
       <div class="text-center px-4">
         <div class="step-cell"><span class="step-num">四</span></div>
-        <h3 class="display" style="font-size:20px;font-weight:700;margin-top:26px">Convert the ready</h3>
-        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:280px;margin-left:auto;margin-right:auto">Every inbound lead is scored, nurtured, and booked in under a minute — your closers only ever talk to buyers.</p>
+        <h3 style="font-size:20px;font-weight:700;color:var(--sumi);margin-top:24px">Convert the ready</h3>
+        <p style="font-size:15px;line-height:1.75;margin-top:12px;max-width:300px;margin-left:auto;margin-right:auto">Every inbound lead is scored, nurtured, and booked in under a minute — your closers only ever talk to buyers.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= INDUSTRIES ================= -->
-<section id="industries" style="background:var(--washi);padding-top:108px">
+<section id="industries" style="background:var(--washi);padding-top:clamp(60px,9.5vw,108px)">
   <div class="container-site">
     <p class="reveal eyebrow text-center">業界 — INDUSTRIES</p>
-    <h2 class="display reveal text-center" style="font-size:50px;margin-top:18px">Built for heavy decisions.</h2>
-    <p class="lead reveal text-center mx-auto" style="max-width:600px;margin-top:22px">
+    <h2 class="display reveal text-center" style="font-size:clamp(32px,6vw,50px);margin-top:16px">Built for heavy decisions.</h2>
+    <p class="lead reveal text-center mx-auto" style="max-width:600px;margin-top:20px">
       Generic marketing tools are tuned for $40 t-shirts. Saku AI is purpose-built for six-figure deals with long cycles and serious buyers.
     </p>
-    <div class="reveal flex justify-center" style="margin-top:50px">
-      <a href="#contact" class="btn btn-shu inline-flex items-center justify-center" style="padding:16px 34px;font-size:15px">Book a demo</a>
+    <div class="reveal flex justify-center" style="margin-top:clamp(34px,5vw,50px)">
+      <a href="#book" class="btn btn-shu inline-flex items-center justify-center" style="padding:16px 34px;font-size:15px">Book a demo</a>
     </div>
   </div>
 
-  <div class="container-site grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" style="margin-top:68px">
-    <figure class="ind-card relative overflow-hidden reveal" style="height:440px;margin:0;background:var(--dark);border-radius:14px">
+  <div class="container-site grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" style="margin-top:clamp(44px,7vw,68px)">
+    <figure class="ind-card relative overflow-hidden reveal" style="height:clamp(340px,52vw,440px);margin:0;background:var(--dark);border-radius:14px">
       <span class="tategaki ghost-k absolute" aria-hidden="true" style="right:24px;top:36px;font-size:56px;font-weight:700">不動産</span>
       <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(20,18,15,.75) 0%, rgba(20,18,15,0) 45%)"></div>
-      <span class="absolute jp" style="top:24px;left:24px;font-size:11px;letter-spacing:.24em;color:#D98A66;font-weight:500">IND / 01</span>
+      <span class="absolute jp" style="top:24px;left:24px;font-size:11px;letter-spacing:.24em;color:#8FBFA4;font-weight:500;color:#D98A66">IND / 01</span>
       <figcaption class="absolute display" style="bottom:48px;left:24px;font-size:24px;font-weight:700;color:var(--washi)">Real Estate</figcaption>
       <span class="absolute jp" style="bottom:24px;left:24px;color:#9A938A;font-size:10.5px;letter-spacing:.14em">AVG DEAL $480K</span>
     </figure>
-    <figure class="ind-card relative overflow-hidden reveal" style="height:440px;margin:0;background:var(--dark);border-radius:14px">
+    <figure class="ind-card relative overflow-hidden reveal" style="height:clamp(340px,52vw,440px);margin:0;background:var(--dark);border-radius:14px">
       <span class="tategaki ghost-k absolute" aria-hidden="true" style="right:24px;top:36px;font-size:56px;font-weight:700">建設</span>
       <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(20,18,15,.75) 0%, rgba(20,18,15,0) 45%)"></div>
       <span class="absolute jp" style="top:24px;left:24px;font-size:11px;letter-spacing:.24em;color:#D98A66;font-weight:500">IND / 02</span>
       <figcaption class="absolute display" style="bottom:48px;left:24px;font-size:24px;font-weight:700;color:var(--washi)">Construction</figcaption>
       <span class="absolute jp" style="bottom:24px;left:24px;color:#9A938A;font-size:10.5px;letter-spacing:.14em">BID-DRIVEN</span>
     </figure>
-    <figure class="ind-card relative overflow-hidden reveal" style="height:440px;margin:0;background:var(--dark);border-radius:14px">
+    <figure class="ind-card relative overflow-hidden reveal" style="height:clamp(340px,52vw,440px);margin:0;background:var(--dark);border-radius:14px">
       <span class="tategaki ghost-k absolute" aria-hidden="true" style="right:24px;top:36px;font-size:56px;font-weight:700">産業機械</span>
       <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(20,18,15,.75) 0%, rgba(20,18,15,0) 45%)"></div>
       <span class="absolute jp" style="top:24px;left:24px;font-size:11px;letter-spacing:.24em;color:#D98A66;font-weight:500">IND / 03</span>
       <figcaption class="absolute display" style="bottom:48px;left:24px;font-size:24px;font-weight:700;color:var(--washi)">Industrial Equipment</figcaption>
       <span class="absolute jp" style="bottom:24px;left:24px;color:#9A938A;font-size:10.5px;letter-spacing:.14em">LONG CYCLE</span>
     </figure>
-    <figure class="ind-card relative overflow-hidden reveal" style="height:440px;margin:0;background:var(--dark);border-radius:14px">
+    <figure class="ind-card relative overflow-hidden reveal" style="height:clamp(340px,52vw,440px);margin:0;background:var(--dark);border-radius:14px">
       <span class="tategaki ghost-k absolute" aria-hidden="true" style="right:24px;top:36px;font-size:56px;font-weight:700">物流</span>
       <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(20,18,15,.75) 0%, rgba(20,18,15,0) 45%)"></div>
       <span class="absolute jp" style="top:24px;left:24px;font-size:11px;letter-spacing:.24em;color:#D98A66;font-weight:500">IND / 04</span>
@@ -337,15 +365,15 @@
 </section>
 
 <!-- ================= PROOF ================= -->
-<section id="proof" style="background:var(--washi);padding-top:128px;padding-bottom:118px">
+<section id="proof" style="background:var(--washi);padding-top:clamp(70px,11vw,128px);padding-bottom:clamp(64px,10vw,118px)">
   <div class="container-site">
     <p class="reveal eyebrow text-center">実績 — PROOF</p>
-    <h2 class="display reveal text-center" style="font-size:50px;margin-top:18px">Readings from the field.</h2>
-    <p class="lead reveal text-center mx-auto" style="max-width:560px;margin-top:22px">
+    <h2 class="display reveal text-center" style="font-size:clamp(32px,6vw,50px);margin-top:16px">Readings from the field.</h2>
+    <p class="lead reveal text-center mx-auto" style="max-width:560px;margin-top:20px">
       Owners and sales chiefs who swapped guesswork for an engine — and read the gauges after.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-7 items-start reveal" style="margin-top:70px">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-7 items-start reveal" style="margin-top:clamp(44px,7vw,70px)">
       <article class="quote-card">
         <span class="eyebrow" style="font-size:10.5px">MARKETING HOURS</span>
         <p style="font-size:15.5px;line-height:1.85;margin-top:18px;color:#4C4840">「We put twenty hours a week into marketing and couldn't tell you what worked. Now the pipeline fills itself and the reports read like an instrument panel.」</p>
@@ -368,9 +396,8 @@
   </div>
 </section>
 
-<!-- ================= CUSTOM OS ================= -->
-<section class="relative overflow-hidden" style="background:var(--washi2);padding-top:108px;padding-bottom:126px;border-top:1px solid var(--line)">
-  <!-- ensō decoration -->
+<!-- ================= WORKSHOP TEASER ================= -->
+<section class="relative overflow-hidden" style="background:var(--washi2);padding-top:clamp(60px,9.5vw,108px);padding-bottom:clamp(64px,10vw,120px);border-top:1px solid var(--line)">
   <svg class="absolute hidden lg:block" style="right:30px;top:40px;opacity:.6" width="300" height="300" viewBox="0 0 300 300" fill="none" aria-hidden="true">
     <circle cx="150" cy="150" r="120" stroke="#D8CFBE" stroke-width="1.5"/>
     <circle cx="150" cy="150" r="86" stroke="#D8CFBE" stroke-width="1" opacity=".7"/>
@@ -379,79 +406,75 @@
 
   <div class="container-site relative">
     <div style="max-width:660px">
-      <p class="eyebrow-dim reveal">特注 — PREMIUM</p>
-      <h2 class="display reveal" style="font-size:54px;line-height:1.14;margin-top:18px">
-        A growth OS,<br><span style="color:#A29A8C">custom-built.</span>
+      <p class="eyebrow-dim reveal">研修 — THE WORKSHOP</p>
+      <h2 class="display reveal" style="font-size:clamp(34px,6.4vw,54px);line-height:1.14;margin-top:16px">
+        Not sure where to start?<br><span style="color:#A29A8C">Start in one room.</span>
       </h2>
-      <p class="lead reveal" style="max-width:510px;margin-top:28px">
-        Beyond the standard crew: we design and deploy agentic infrastructure around your data, your workflows, and your unfair advantages — then hand you the keys.
+      <p class="lead reveal" style="max-width:520px;margin-top:26px">
+        The AI Enabling Workshop: a private, hands-on half-day built around your company. You leave with a ranked opportunity map and a live demo on your real problem — normally $500, currently free for a small founding group.
       </p>
-      <a href="#contact" class="btn btn-sumi reveal inline-flex items-center gap-3" style="margin-top:38px;padding:15px 30px;font-size:14.5px">
-        Spec your custom build
+      <a href="workshop.html" class="btn btn-sumi reveal inline-flex items-center gap-3" style="margin-top:34px;padding:15px 30px;font-size:14.5px">
+        Explore the workshop
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
       </a>
-    </div>
-
-    <div class="reveal mx-auto" style="max-width:960px;margin-top:86px;padding:80px 84px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(28,27,24,.03),0 24px 60px rgba(28,27,24,.06)">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-12">
-        <div class="flex gap-5">
-          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 8V5M9 5h6"/><circle cx="9.5" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="13" r="1" fill="currentColor" stroke="none"/><path d="M9 16.5h6"/></svg></span>
-          <div>
-            <h3 class="display" style="font-size:16.5px;font-weight:700">Proprietary agents</h3>
-            <p style="font-size:14.5px;line-height:1.75;margin-top:8px">Trained on your products, price books, and objection patterns — not a generic chatbot with your logo on it.</p>
-          </div>
-        </div>
-        <div class="flex gap-5">
-          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 7V3M15 7V3"/><path d="M7 7h10v4a5 5 0 01-5 5 5 5 0 01-5-5V7z"/><path d="M12 16v5"/></svg></span>
-          <div>
-            <h3 class="display" style="font-size:16.5px;font-weight:700">Bolted to your stack</h3>
-            <p style="font-size:14.5px;line-height:1.75;margin-top:8px">CRM, ad platforms, calendars, and phone systems — the agents work inside the tools your team already runs.</p>
-          </div>
-        </div>
-        <div class="flex gap-5">
-          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="7" height="6" rx="1.5"/><rect x="14" y="14" width="7" height="6" rx="1.5"/><path d="M10 7h5a2 2 0 012 2v5"/></svg></span>
-          <div>
-            <h3 class="display" style="font-size:16.5px;font-weight:700">End-to-end drive</h3>
-            <p style="font-size:14.5px;line-height:1.75;margin-top:8px">Lead gen to nurture to booked call, running automatically — with a human hand on the wheel wherever you want one.</p>
-          </div>
-        </div>
-        <div class="flex gap-5">
-          <span class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
-          <div>
-            <h3 class="display" style="font-size:16.5px;font-weight:700">One control layer</h3>
-            <p style="font-size:14.5px;line-height:1.75;margin-top:8px">A single panel coordinating strategy, creative, distribution, and intelligence — replacing the patchwork of tools.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= CTA ================= -->
-<section id="contact" class="relative overflow-hidden" style="background:var(--dark);padding-top:120px;padding-bottom:126px">
-  <!-- faint ensō -->
+<!-- ================= BOOK ================= -->
+<section id="book" class="relative overflow-hidden" style="background:var(--dark);padding-top:clamp(64px,10vw,110px);padding-bottom:clamp(68px,10vw,116px)">
   <svg class="absolute" style="left:50%;top:50%;transform:translate(-50%,-50%);opacity:.08" width="560" height="560" viewBox="0 0 560 560" fill="none" aria-hidden="true">
     <circle cx="280" cy="280" r="240" stroke="#F7F2EA" stroke-width="1.5"/>
   </svg>
-  <div class="container-site text-center relative z-10">
-    <p class="reveal eyebrow" style="color:#D98A66">始める — BEGIN</p>
-    <h2 class="display reveal mx-auto" style="font-size:54px;line-height:1.14;max-width:780px;color:var(--washi);margin-top:18px">
-      Ready to shift <span style="color:#D98A66">gears?</span>
-    </h2>
-    <p class="lead reveal mx-auto" style="max-width:540px;margin-top:24px;color:#A8A093">
-      See the engine running on your market: strategy, creative, distribution, and lead intelligence — working as one machine in one demo.
-    </p>
-    <div class="reveal flex items-center justify-center gap-5" style="margin-top:42px">
-      <a href="#" class="btn btn-shu inline-flex items-center justify-center" style="padding:16px 36px;font-size:15px">Book a demo</a>
-      <span class="jp" style="font-size:13px;letter-spacing:.12em;color:#8D857A">saku.ai</span>
+  <div class="container-site relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_.95fr] items-center" style="gap:clamp(40px,6vw,72px)">
+    <div>
+      <p class="reveal eyebrow" style="color:#D98A66">始める — BEGIN</p>
+      <h2 class="display reveal" style="font-size:clamp(34px,6.4vw,54px);line-height:1.14;color:var(--washi);margin-top:16px">
+        Ready to shift <span style="color:#8FBFA4">gears?</span>
+      </h2>
+      <p class="lead reveal" style="max-width:480px;margin-top:22px;color:#A8A093">
+        Tell us a little about your business and we'll reply within one business day to set up a 30-minute call. No commitment.
+      </p>
+      <p class="reveal" style="margin-top:26px;font-size:14.5px;color:#8D857A">
+        Prefer email? Write us directly:<br>
+        <a href="mailto:andresbravocardozo@gmail.com" class="footer-link" style="display:inline;color:#D98A66;font-size:15px;margin:0">andresbravocardozo@gmail.com</a>
+      </p>
     </div>
-    <p class="reveal jp" style="font-size:11px;color:#8D857A;margin-top:24px;letter-spacing:.22em">30-MINUTE CALL · NO COMMITMENT · USD PRICING</p>
+
+    <form class="reveal" action="https://formsubmit.co/andresbravocardozo@gmail.com" method="POST"
+      style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(24px,4vw,36px)">
+      <input type="hidden" name="_subject" value="New demo request — Saku AI">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://andcard10.github.io/thanks.html">
+      <input type="hidden" name="page" value="landing">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+      <div style="margin-bottom:18px">
+        <label class="flabel" for="f-name">Name *</label>
+        <input class="field" id="f-name" type="text" name="name" placeholder="Your name" required>
+      </div>
+      <div style="margin-bottom:18px">
+        <label class="flabel" for="f-company">Company</label>
+        <input class="field" id="f-company" type="text" name="company" placeholder="Company / industry">
+      </div>
+      <div style="margin-bottom:18px">
+        <label class="flabel" for="f-email">Email *</label>
+        <input class="field" id="f-email" type="email" name="email" placeholder="you@company.com" required>
+      </div>
+      <div style="margin-bottom:22px">
+        <label class="flabel" for="f-msg">What would you like to grow?</label>
+        <textarea class="field" id="f-msg" name="message" rows="3" placeholder="A sentence or two is plenty."></textarea>
+      </div>
+      <button type="submit" class="btn btn-shu" style="width:100%;padding:16px;font-size:15px;border:none;cursor:pointer">Request a demo call</button>
+      <p class="jp" style="font-size:10.5px;color:#A29A8C;margin-top:14px;letter-spacing:.14em;text-align:center">30-MINUTE CALL · NO COMMITMENT · USD PRICING</p>
+    </form>
   </div>
 </section>
 
 <!-- ================= FOOTER ================= -->
 <footer style="background:#1C1B18">
-  <div class="container-site" style="padding-top:90px">
+  <div class="container-site" style="padding-top:clamp(56px,8vw,90px)">
     <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10">
       <div>
         <div class="flex items-baseline gap-3">
@@ -459,14 +482,7 @@
           <span class="jp" style="font-size:11px;font-weight:500;letter-spacing:.3em;color:var(--washi)">AI</span>
         </div>
         <p style="font-size:14px;line-height:1.8;color:#8D857A;max-width:270px;margin-top:18px">An AI growth team for high-ticket industries. Strategy, creative, distribution, and lead intelligence — engineered as one machine.</p>
-        <div class="flex items-center gap-5" style="margin-top:28px">
-          <a href="#" class="footer-link" style="margin:0" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D857A" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 014 0v4"/></svg>
-          </a>
-          <a href="#" class="footer-link" style="margin:0" aria-label="YouTube">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D857A" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M10 9.5l5 2.5-5 2.5v-5z"/></svg>
-          </a>
-        </div>
+        <a href="mailto:andresbravocardozo@gmail.com" class="footer-link" style="margin-top:20px;color:#D98A66">andresbravocardozo@gmail.com</a>
       </div>
       <div>
         <p class="eyebrow" style="font-size:11px;margin-bottom:24px;color:#D98A66">仕組み — ENGINE</p>
@@ -477,8 +493,8 @@
       <div>
         <p class="eyebrow" style="font-size:11px;margin-bottom:24px;color:#D98A66">会社 — COMPANY</p>
         <a href="#industries" class="footer-link">Industries</a>
-        <a href="#proof" class="footer-link">Proof</a>
-        <a href="#contact" class="footer-link">Contact</a>
+        <a href="workshop.html" class="footer-link">Workshop</a>
+        <a href="#book" class="footer-link">Book a demo</a>
       </div>
       <div>
         <p class="eyebrow" style="font-size:11px;margin-bottom:24px;color:#D98A66">法務 — LEGAL</p>
@@ -487,12 +503,11 @@
       </div>
     </div>
 
-    <!-- giant clipped wordmark -->
-    <div aria-hidden="true" style="overflow:hidden;height:140px;margin-top:44px">
-      <p class="jp text-center" style="font-size:220px;font-weight:700;letter-spacing:.18em;color:rgba(247,242,234,.045);line-height:1;margin:14px 0 0">SAKU</p>
+    <div aria-hidden="true" style="overflow:hidden;height:clamp(64px,15vw,140px);margin-top:clamp(28px,5vw,44px)">
+      <p class="jp text-center" style="font-size:clamp(96px,23vw,220px);font-weight:700;letter-spacing:.18em;color:rgba(247,242,234,.045);line-height:1;margin:14px 0 0">SAKU</p>
     </div>
 
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4" style="border-top:1px solid rgba(247,242,234,.09);margin-top:0;padding:24px 0 28px">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4" style="border-top:1px solid rgba(247,242,234,.09);padding:24px 0 28px">
       <p class="jp" style="font-size:12px;color:#8D857A;letter-spacing:.12em">© 2026 SAKU AI. ALL RIGHTS RESERVED.</p>
       <div class="flex items-center gap-8">
         <a href="#" class="footer-link" style="margin:0;font-size:13.5px">Privacy</a>
@@ -562,10 +577,28 @@ function fillGrid(id, tiles, height){
     `<button class="tile reveal" style="height:${height}px" type="button">${icons[icon]}<span>${label}</span></button>`
   ).join('');
 }
-fillGrid('os-grid', osTiles, 150);
-fillGrid('agent-grid', agentTiles, 116);
+fillGrid('os-grid', osTiles, 140);
+fillGrid('agent-grid', agentTiles, 112);
 
-/* ---------- gentle parallax on the hero circle + bloom glyph ---------- */
+/* ---------- mobile drawer ---------- */
+(function(){
+  const drawer = document.getElementById('mnav');
+  const openBtn = document.getElementById('mnav-open');
+  const closeBtn = document.getElementById('mnav-close');
+  const set = (open) => {
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  openBtn.addEventListener('click', () => set(true));
+  closeBtn.addEventListener('click', () => set(false));
+  drawer.addEventListener('click', (e) => { if (e.target === drawer) set(false); });
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+})();
+
+/* ---------- gentle parallax ---------- */
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const blush = document.getElementById('blush');
