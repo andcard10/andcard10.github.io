@@ -28,9 +28,25 @@
   if (window.__sakuConcierge) return;
   window.__sakuConcierge = true;
 
+  /* ---------------------------------------------------------------
+     LEAD DELIVERY
+     formEndpoint is the single place the lead backend is configured.
+     It is used by the chat widget AND by the page's own booking forms,
+     which this file hardens (see hardenForms) so a dead endpoint can
+     never swallow a lead silently.
+
+     Whatever goes here must answer a cross-origin JSON POST with CORS
+     headers. Swapping providers is a one-line change:
+       Formspree    https://formspree.io/f/<form-id>
+       Web3Forms    https://api.web3forms.com/submit   (+ access_key field)
+       Apps Script  https://script.google.com/macros/s/<id>/exec
+     Set it to null to skip the network entirely and go straight to the
+     email handoff.
+     --------------------------------------------------------------- */
   var CONFIG = {
     endpoint: null,
     formEndpoint: 'https://formsubmit.co/ajax/andresbravocardozo@gmail.com',
+    formTimeoutMs: 6000,
     email: 'andresbravocardozo@gmail.com',
     nudgeAfterMs: 7000
   };
@@ -290,9 +306,10 @@
       confirmEdit: 'Start over',
       sending: 'Sending…',
       sent: 'Sent. Andrés replies within one business day.\n\nAnything else you want to know while you are here?',
-      failed: 'I could not reach the form from here, so I am not going to tell you it went through.\n\nTwo fallbacks that do work:',
+      failed: 'I could not reach the form service, so I am not going to tell you it went through.\n\nYour details are safe. Send them straight to Andrés instead:',
       failedMail: 'Open a pre-filled email',
-      failedForm: 'Use the form on this page',
+      failedCopy: 'Copy my details',
+      copied: 'Copied',
       cancelled: 'Cancelled. Nothing sent. Ask me anything else.',
       skip: 'Skip',
       gapNote: 'Gap logged',
@@ -332,9 +349,10 @@
       confirmEdit: 'Empezar de nuevo',
       sending: 'Enviando…',
       sent: 'Enviado. Andrés responde en un día laborable.\n\n¿Algo más que quieras saber ya que estás?',
-      failed: 'No he podido llegar al formulario desde aquí, así que no te voy a decir que se envió.\n\nDos alternativas que sí funcionan:',
+      failed: 'No he podido llegar al servicio de formularios, así que no te voy a decir que se envió.\n\nTus datos están a salvo. Mándaselos directamente a Andrés:',
       failedMail: 'Abrir un email ya escrito',
-      failedForm: 'Usar el formulario de la página',
+      failedCopy: 'Copiar mis datos',
+      copied: 'Copiado',
       cancelled: 'Cancelado. No se ha enviado nada. Pregúntame otra cosa.',
       skip: 'Saltar',
       gapNote: 'Hueco registrado',
@@ -1012,7 +1030,87 @@
     });
   }
 
-  /* ---------------- delivery ---------------- */
+  /* ==================================================================
+     DELIVERY
+     One POST helper, shared by the widget and the page forms. It only
+     resolves on a real 2xx. Anything else (timeout, DNS, CORS, 5xx,
+     provider outage) rejects, and the caller shows the email handoff.
+     ================================================================== */
+
+  function postLead(payload, meta) {
+    if (!CONFIG.formEndpoint) return Promise.reject(new Error('no endpoint'));
+
+    var body = {
+      name: payload.name || '',
+      company: payload.company || '',
+      email: payload.email || '',
+      message: payload.message || '',
+      _subject: (meta && meta.subject) || 'Lead — Saku AI',
+      _template: 'table',
+      _captcha: 'false',
+      source: (meta && meta.source) || location.pathname,
+      page: location.pathname
+    };
+    if (meta && meta.extra) {
+      Object.keys(meta.extra).forEach(function (k) { body[k] = meta.extra[k]; });
+    }
+
+    var ctrl = new AbortController();
+    var killed = setTimeout(function () { ctrl.abort(); }, CONFIG.formTimeoutMs);
+
+    return fetch(CONFIG.formEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body),
+      signal: ctrl.signal
+    })
+      .then(function (r) {
+        clearTimeout(killed);
+        if (!r.ok) throw new Error('status ' + r.status);
+        return r.json().catch(function () { return {}; });
+      })
+      .catch(function (e) {
+        clearTimeout(killed);
+        throw e;
+      });
+  }
+
+  /* A mail draft carrying the whole lead. Works with no backend at all. */
+  function mailtoFor(payload, extraLines) {
+    var lines = [
+      'Name: ' + (payload.name || ''),
+      'Company: ' + (payload.company || ''),
+      'Email: ' + (payload.email || '')
+    ];
+    if (payload.message) lines.push('', payload.message);
+    if (extraLines && extraLines.length) lines.push('', extraLines.join('\n'));
+    return {
+      href: 'mailto:' + CONFIG.email +
+        '?subject=' + encodeURIComponent('Saku AI — session request') +
+        '&body=' + encodeURIComponent(lines.join('\n')),
+      text: lines.join('\n')
+    };
+  }
+
+  function copyText(text, btn, doneLabel) {
+    var restore = btn.textContent;
+    function ok() {
+      btn.textContent = doneLabel;
+      setTimeout(function () { btn.textContent = restore; }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, function () { legacy(); });
+    } else { legacy(); }
+    function legacy() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { /* nothing else to try */ }
+      ta.remove();
+    }
+  }
 
   function send(payload) {
     var c = t();
@@ -1022,36 +1120,14 @@
     sendEl.disabled = true;
     var dots = typing();
 
-    var body = {
-      name: payload.name || '',
-      company: payload.company || '',
-      email: payload.email || '',
-      message: payload.message || '',
-      _subject: 'Concierge lead — Saku AI',
-      _template: 'table',
-      _captcha: 'false',
+    postLead(payload, {
+      subject: 'Concierge lead — Saku AI',
       source: 'concierge widget · ' + location.pathname,
-      language: state.lang
-    };
-    if (state.gaps.length) {
-      body.unanswered_questions = state.gaps.join(' | ');
-    }
-
-    var ctrl = new AbortController();
-    var killed = setTimeout(function () { ctrl.abort(); }, 12000);
-
-    fetch(CONFIG.formEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(body),
-      signal: ctrl.signal
+      extra: state.gaps.length
+        ? { language: state.lang, unanswered_questions: state.gaps.join(' | ') }
+        : { language: state.lang }
     })
-      .then(function (r) {
-        if (!r.ok) throw new Error('status ' + r.status);
-        return r.json().catch(function () { return {}; });
-      })
       .then(function () {
-        clearTimeout(killed);
         dots.remove();
         state.busy = false;
         sendEl.disabled = false;
@@ -1060,7 +1136,6 @@
         addAgent(c.sent, { chips: [c.starters[0], c.starters[2]] });
       })
       .catch(function () {
-        clearTimeout(killed);
         dots.remove();
         state.busy = false;
         sendEl.disabled = false;
@@ -1068,48 +1143,140 @@
       });
   }
 
-  /* Never drop a lead: hand over a pre-filled mail draft and the page form. */
+  /* Never drop a lead: hand over a pre-filled mail draft, or the raw text. */
   function failover(payload) {
     var c = t();
-    var subject = 'Saku AI — session request';
-    var lines = [
-      'Name: ' + (payload.name || ''),
-      'Company: ' + (payload.company || ''),
-      'Email: ' + (payload.email || ''),
-      '',
-      payload.message || ''
-    ].join('\n');
-    var mailto = 'mailto:' + CONFIG.email +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines);
+    var gapLines = state.gaps.length ? ['Asked but unanswered: ' + state.gaps.join(' | ')] : [];
+    var mail = mailtoFor(payload, gapLines);
 
-    var hasForm = !!document.getElementById('f-email');
     var html =
       '<div class="sk-chips">' +
-        '<a class="sk-chip" href="' + mailto + '">' + esc(c.failedMail) + '</a>' +
-        (hasForm ? '<button class="sk-chip" type="button" data-v="__form__">' + esc(c.failedForm) + '</button>' : '') +
+        '<a class="sk-chip" href="' + mail.href + '">' + esc(c.failedMail) + '</a>' +
+        '<button class="sk-chip" type="button" data-v="__copy__">' + esc(c.failedCopy) + '</button>' +
       '</div>';
 
     var node = addAgent(c.failed, { extraHtml: html });
-    var formBtn = node.querySelector('[data-v="__form__"]');
-    if (formBtn) {
-      formBtn.addEventListener('click', function () {
-        prefillPageForm(payload);
-        toggle(false);
-        var target = document.getElementById('book');
-        if (target) target.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
-        var f = document.getElementById('f-name');
-        if (f) setTimeout(function () { f.focus(); }, REDUCED ? 0 : 600);
+    var copyBtn = node.querySelector('[data-v="__copy__"]');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        copyText(CONFIG.email + '\n\n' + mail.text, copyBtn, c.copied);
       });
     }
   }
 
-  function prefillPageForm(payload) {
-    var map = { 'f-name': payload.name, 'f-company': payload.company, 'f-email': payload.email, 'f-msg': payload.message };
-    Object.keys(map).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el && map[id]) el.value = map[id];
-    });
+  /* ==================================================================
+     PAGE FORMS
+     The booking forms on this site POST straight to the lead provider.
+     When that provider is unreachable the browser navigates to an error
+     page and the lead is gone with no trace. Take the submit over: post
+     it ourselves, only claim success on a real 2xx, and on failure show
+     an inline recovery panel instead of leaving the page.
+     ================================================================== */
+
+  var FORM_COPY = {
+    en: {
+      sending: 'Sending…',
+      failedTitle: 'That did not send.',
+      failedBody: 'The form service is not responding, so we are not going to pretend it went through. Your details are safe. Send them straight to Andrés instead.',
+      mail: 'Open a pre-filled email',
+      copy: 'Copy my details',
+      copied: 'Copied',
+      retry: 'Try sending again'
+    },
+    es: {
+      sending: 'Enviando…',
+      failedTitle: 'No se ha enviado.',
+      failedBody: 'El servicio de formularios no responde, así que no vamos a fingir que llegó. Tus datos están abajo, mándaselos directamente a Andrés.',
+      mail: 'Abrir un email ya escrito',
+      copy: 'Copiar mis datos',
+      copied: 'Copiado',
+      retry: 'Intentar de nuevo'
+    }
+  };
+
+  var FORM_CSS = [
+    '.sk-fallback{background:#FDFBF6;border:1px solid #D8B29A;border-radius:10px;padding:16px 17px;margin-top:16px;',
+    'font-family:"Albert Sans",sans-serif}',
+    '.sk-fallback h4{font-family:"Zen Kaku Gothic New",sans-serif;font-size:14.5px;font-weight:700;color:#A54A2B;margin:0 0 7px}',
+    '.sk-fallback p{font-size:13.5px;line-height:1.65;color:#6E6A61;margin:0 0 13px}',
+    '.sk-fallback .sk-fb-actions{display:flex;flex-wrap:wrap;gap:8px}',
+    '.sk-fallback a,.sk-fallback button{font-family:"Albert Sans",sans-serif;font-size:13px;line-height:1;color:#A54A2B;',
+    'background:transparent;border:1px solid #D8CFBE;border-radius:9999px;padding:9px 14px;cursor:pointer;',
+    'display:inline-flex;align-items:center;text-decoration:none;transition:border-color .2s ease,background .2s ease}',
+    '.sk-fallback a:hover,.sk-fallback button:hover{border-color:#BF5B38;background:#F5E7DA}',
+    '.sk-fallback a:focus-visible,.sk-fallback button:focus-visible{outline:2px solid #BF5B38;outline-offset:2px}'
+  ].join('');
+
+  function hardenForms() {
+    var forms = document.querySelectorAll('form[action*="formsubmit"],form[data-lead-form]');
+    if (!forms.length) return;
+
+    var s = document.createElement('style');
+    s.textContent = FORM_CSS;
+    document.head.appendChild(s);
+
+    for (var i = 0; i < forms.length; i++) wire(forms[i]);
+
+    function wire(form) {
+      var btn = form.querySelector('[type="submit"]');
+      var original = btn ? btn.textContent : '';
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fc = FORM_COPY[state.lang] || FORM_COPY.en;
+
+        var payload = {
+          name: val(form, 'name'),
+          company: val(form, 'company'),
+          email: val(form, 'email'),
+          message: val(form, 'message')
+        };
+        // Honour the honeypot exactly as the provider would.
+        if (val(form, '_honey')) return;
+
+        var old = form.querySelector('.sk-fallback');
+        if (old) old.remove();
+        if (btn) { btn.disabled = true; btn.textContent = fc.sending; }
+
+        postLead(payload, {
+          subject: val(form, '_subject') || 'New demo request — Saku AI',
+          source: 'page form · ' + location.pathname
+        })
+          .then(function () {
+            var next = val(form, '_next');
+            window.location.href = next || 'thanks.html';
+          })
+          .catch(function () {
+            if (btn) { btn.disabled = false; btn.textContent = original; }
+            showFallback(form, payload, fc);
+          });
+      });
+    }
+
+    function val(form, name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      return el ? String(el.value || '').trim() : '';
+    }
+
+    function showFallback(form, payload, fc) {
+      var mail = mailtoFor(payload, []);
+      var box = document.createElement('div');
+      box.className = 'sk-fallback';
+      box.setAttribute('role', 'alert');
+      box.innerHTML =
+        '<h4>' + esc(fc.failedTitle) + '</h4>' +
+        '<p>' + esc(fc.failedBody) + '</p>' +
+        '<div class="sk-fb-actions">' +
+          '<a href="' + mail.href + '">' + esc(fc.mail) + '</a>' +
+          '<button type="button" data-copy>' + esc(fc.copy) + '</button>' +
+        '</div>';
+      form.appendChild(box);
+      var cb = box.querySelector('[data-copy]');
+      cb.addEventListener('click', function () {
+        copyText(CONFIG.email + '\n\n' + mail.text, cb, fc.copied);
+      });
+      box.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'nearest' });
+    }
   }
 
   /* ==================================================================
@@ -1118,6 +1285,7 @@
 
   function boot() {
     build();
+    hardenForms();
     if (!state.greeted && CONFIG.nudgeAfterMs) {
       setTimeout(showNudge, CONFIG.nudgeAfterMs);
     }
