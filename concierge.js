@@ -58,8 +58,11 @@
      Every fact below is on this site. Nothing else is answerable.
      ================================================================== */
 
+  /* A chip is a promise: {to:'<kb id>'} always answers from that article and
+     never round-trips through retrieval. {book:true} starts the booking flow. */
   var KB = [
     {
+      id: 'what-saku-is',
       file: 'kb/what-saku-is.md',
       keys: ['what is saku', 'what do you do', 'who are you guys', 'what does saku do', 'about saku',
              'what is this', 'tell me about saku', 'agency', 'what do you sell', 'what do you offer',
@@ -67,27 +70,40 @@
              'servicios', 'agencia', 'que ofreceis', 'cuentame de saku'],
       en: 'Saku AI deploys a coordinated team of AI agents. Strategy, creative, distribution and lead intelligence, wired together as one growth engine instead of a pile of tools.\n\nIt is built for high-ticket industries, where a single closed deal moves real money. Fixed scopes, USD pricing, no retainer theater.',
       es: 'Saku AI despliega un equipo coordinado de agentes de IA. Estrategia, creatividad, distribución e inteligencia de leads, conectados como un solo motor de crecimiento en lugar de un montón de herramientas.\n\nEstá hecho para industrias de ticket alto, donde cerrar un solo trato mueve dinero de verdad. Alcance cerrado, precios en USD, sin teatro de retainer.',
-      chips: ['Show me the engine', 'Which industries?']
+      chips: [
+        { to: 'engine', en: 'Show me the engine', es: 'Enséñame el motor' },
+        { to: 'industries', en: 'Which industries?', es: '¿Qué industrias?' }
+      ]
     },
     {
+      id: 'engine',
       file: 'kb/engine.md',
       keys: ['engine', 'agents', 'how many agents', 'what agents', 'operating systems', 'os', 'crew',
              'the machine', 'stack', 'tools', 'what is included', 'list the agents', '27 agents',
              'motor', 'agentes', 'cuantos agentes', 'sistemas operativos', 'que incluye', 'la maquina'],
       en: 'Two layers. Seven operating systems shipped for clients: Demand OS, Creative Lab, Distribution, Lead Intel, Sales Desk, Brand OS, Exec Ops.\n\nInside them run 27 specialist agents. Strategist, Copywriter, Art Director, Video Cutter, Media Buyer, SEO Scout, Email Smith, Scheduler, Publisher, Inbox Triage, Lead Scorer, Qualifier, Enricher, Follow-up, Booker, CRM Sync, Ad Auditor, Budget Guard, A/B Runner, Page Builder, Analytics, Attribution, Reporter, Voice Agent, Concierge (that is me), Retention, Day Close.\n\nEvery part earns its place or gets removed.',
       es: 'Dos capas. Siete sistemas operativos entregados a clientes: Demand OS, Creative Lab, Distribution, Lead Intel, Sales Desk, Brand OS, Exec Ops.\n\nDentro corren 27 agentes especialistas. Strategist, Copywriter, Art Director, Video Cutter, Media Buyer, SEO Scout, Email Smith, Scheduler, Publisher, Inbox Triage, Lead Scorer, Qualifier, Enricher, Follow-up, Booker, CRM Sync, Ad Auditor, Budget Guard, A/B Runner, Page Builder, Analytics, Attribution, Reporter, Voice Agent, Concierge (ese soy yo), Retention, Day Close.\n\nCada pieza se gana su sitio o se quita.',
-      chips: ['What are you, exactly?', 'How does it run?']
+      chips: [
+        { to: 'concierge', en: 'What are you, exactly?', es: '¿Qué eres exactamente?' },
+        { to: 'method', en: 'How does it run?', es: '¿Cómo funciona?' }
+      ]
     },
     {
+      id: 'method',
       file: 'kb/method.md',
-      keys: ['method', 'how does it work', 'how it works', 'process', 'how do you run it', 'steps',
-             'what happens', 'how does it run', 'workflow', 'metodo', 'como funciona', 'proceso',
+      keys: ['method', 'how does it work', 'how does this work', 'how it works', 'process',
+             'how do you run it', 'how do you do it', 'steps',
+             'how does it run', 'workflow', 'metodo', 'como funciona', 'proceso',
              'pasos', 'como lo haceis', 'como trabajais'],
       en: 'Four strokes, one cycle.\n\n1. Chart the market. The Strategy Agent maps buyers, competitors and price bands into a plan with numbers attached.\n2. Manufacture creative. On-brand ads, emails and landing pages at machine pace.\n3. Distribute with force. Campaigns launch and self-optimize across paid, social and email.\n4. Convert the ready. Every inbound lead scored, nurtured and booked in under a minute.',
       es: 'Cuatro trazos, un ciclo.\n\n1. Cartografiar el mercado. El agente de estrategia mapea compradores, competencia y rangos de precio en un plan con números.\n2. Fabricar creatividad. Anuncios, emails y landing pages en marca, a ritmo de máquina.\n3. Distribuir con fuerza. Las campañas se lanzan y se auto-optimizan en paid, social y email.\n4. Convertir al que está listo. Cada lead entrante puntuado, nutrido y agendado en menos de un minuto.',
-      chips: ['What results?', 'Book a session']
+      chips: [
+        { to: 'proof', en: 'What results?', es: '¿Qué resultados?' },
+        { book: true }
+      ]
     },
     {
+      id: 'industries',
       file: 'kb/industries.md',
       keys: ['industries', 'industry', 'who is this for', 'is this for me', 'real estate', 'construction',
              'industrial equipment', 'logistics', 'my business', 'do you work with', 'fit', 'b2b',
@@ -95,39 +111,57 @@
              'logistica', 'maquinaria', 'trabajais con'],
       en: 'Four named on the site: Real Estate (avg deal $480K), Construction (bid-driven), Industrial Equipment (long cycle) and Logistics (contract LTV).\n\nThe common thread is heavy decisions. Generic marketing tools are tuned for $40 t-shirts. This is purpose-built for six-figure deals with long cycles and serious buyers.\n\nIf your industry is not one of those four, I will not guess whether it fits. That is a 30-minute call question.',
       es: 'En la web se nombran cuatro: Real Estate (trato medio $480K), Construcción (por licitación), Maquinaria Industrial (ciclo largo) y Logística (LTV por contrato).\n\nEl hilo común son las decisiones pesadas. Las herramientas de marketing genéricas están afinadas para camisetas de $40. Esto está hecho para tratos de seis cifras con ciclos largos y compradores serios.\n\nSi tu industria no es una de esas cuatro, no voy a adivinar si encaja. Eso es una pregunta de llamada de 30 minutos.',
-      chips: ['Book a session', 'What results?']
+      chips: [
+        { book: true },
+        { to: 'proof', en: 'What results?', es: '¿Qué resultados?' }
+      ]
     },
     {
+      id: 'workshop',
       file: 'kb/workshop.md',
       keys: ['workshop', 'the workshop', 'ai enabling workshop', 'session', 'half day', 'on site',
              'what do i get', 'opportunity map', 'live demo', 'founding', 'seats', 'how long is it',
-             'taller', 'sesion', 'medio dia', 'presencial', 'que me llevo', 'mapa de oportunidades',
+             'taller', 'que es el taller', 'que incluye el taller', 'el taller',
+             'sesion', 'medio dia', 'presencial', 'que me llevo', 'mapa de oportunidades',
              'demo en vivo', 'plazas'],
       en: 'The AI Enabling Workshop. Private, on-site, half a day, roughly 3 to 4 hours, with your key decision-makers in the room together.\n\nThree moves: get fluent on what AI really does for a business like yours, map your opportunities in a guided working session, then build one of your real problems into a working demo on the spot.\n\nYou leave with two artifacts. A ranked opportunity map built on your numbers, not industry averages, and the live demo. Both yours to keep.',
       es: 'El AI Enabling Workshop. Privado, presencial, medio día, unas 3 o 4 horas, con tus decisores clave en la misma sala.\n\nTres movimientos: entender qué hace realmente la IA en un negocio como el tuyo, mapear tus oportunidades en una sesión de trabajo guiada, y convertir uno de tus problemas reales en una demo funcionando ahí mismo.\n\nTe llevas dos cosas. Un mapa de oportunidades priorizado con tus números, no promedios del sector, y la demo en vivo. Las dos son tuyas.',
-      chips: ['What does it cost?', 'Book a session']
+      chips: [
+        { to: 'pricing', en: 'What does it cost?', es: '¿Cuánto cuesta?' },
+        { book: true }
+      ]
     },
     {
+      id: 'pricing',
       file: 'kb/pricing.md',
       keys: ['price', 'pricing', 'cost', 'how much', 'how much does it cost', 'fees', 'budget', 'rates',
-             'expensive', 'free', 'is it free', 'retainer', 'contract', 'workshop cost',
+             'expensive', 'free', 'is it free', 'retainer', 'workshop cost',
              'how much is the workshop', 'is the workshop free', 'precio', 'precios', 'coste',
              'cuanto cuesta', 'cuanto vale', 'tarifas', 'presupuesto', 'gratis', 'es gratis', 'caro',
              'precio del taller', 'cuanto cuesta el taller', 'el taller es gratis'],
       en: 'Two things are published, and I will stick to them.\n\nThe workshop is normally $500. Right now it is free for a small founding group of companies, no cost and no obligation. If you later start a project, that fee credits 100% toward it. The free seats are limited and intentional.\n\nThe pricing model is fixed scopes in USD, no retainer theater. Project prices themselves are not published, so I am not going to quote you one. Those get scoped on the 30-minute call.',
       es: 'Hay dos cosas publicadas, y me voy a ceñir a ellas.\n\nEl workshop cuesta normalmente $500. Ahora mismo es gratis para un grupo fundador pequeño de empresas, sin coste y sin compromiso. Si luego arrancas un proyecto, esa cuota se acredita al 100%. Las plazas gratuitas son limitadas a propósito.\n\nEl modelo es alcance cerrado en USD, sin teatro de retainer. Los precios de proyecto no están publicados, así que no te voy a inventar uno. Eso se dimensiona en la llamada de 30 minutos.',
-      chips: ['Book a session', 'What is in the workshop?']
+      chips: [
+        { book: true },
+        { to: 'workshop', en: 'What is in the workshop?', es: '¿Qué incluye el taller?' }
+      ]
     },
     {
+      id: 'proof',
       file: 'kb/proof.md',
       keys: ['results', 'proof', 'roi', 'numbers', 'case study', 'case studies', 'testimonials',
-             'does it work', 'evidence', 'clients', 'guarantee', 'resultados', 'pruebas', 'numeros',
+             'does it work', 'does it really work', 'does this really work', 'prove it',
+             'can you prove it', 'evidence', 'clients', 'guarantee', 'resultados', 'pruebas', 'numeros',
              'casos', 'testimonios', 'funciona', 'clientes', 'garantia'],
       en: 'The figures published on the site are client averages over 12 months, not a guarantee: pipeline +214%, cost per lead −38%, qualified meetings ×3.1, ad waste −52%, first follow-up under 60 seconds, show-up rate 87%.\n\nThree clients are quoted by name and role: Marcus C., owner of a design-build firm. Sarah O., VP Sales at an equipment distributor. David R., managing partner at a developer.\n\nI am flagging these as averages on purpose. Anyone quoting them to you as your outcome is guessing.',
       es: 'Las cifras publicadas en la web son medias de cliente a 12 meses, no una garantía: pipeline +214%, coste por lead −38%, reuniones cualificadas ×3,1, desperdicio en ads −52%, primer follow-up en menos de 60 segundos, tasa de asistencia 87%.\n\nHay tres clientes citados con nombre y cargo: Marcus C., dueño de una constructora design-build. Sarah O., VP de ventas en un distribuidor de maquinaria. David R., socio director en una promotora.\n\nLos marco como medias a propósito. Quien te los venda como tu resultado está adivinando.',
-      chips: ['Book a session', 'Which industries?']
+      chips: [
+        { book: true },
+        { to: 'industries', en: 'Which industries?', es: '¿Qué industrias?' }
+      ]
     },
     {
+      id: 'booking',
       file: 'kb/booking.md',
       keys: ['book', 'booking', 'demo', 'call', 'schedule', 'meeting', 'talk to someone', 'get started',
              'sign up', 'next step', 'how do i start', 'contact you', 'appointment',
@@ -135,9 +169,10 @@
              'quiero hablar', 'contactar', 'siguiente paso'],
       en: 'A 30-minute call, no commitment. You tell us about the business, we reply within one business day to set it up.\n\nI can take your details right here and send them across, or you can write to ' + CONFIG.email + ' directly.',
       es: 'Una llamada de 30 minutos, sin compromiso. Nos cuentas del negocio y respondemos en un día laborable para agendarla.\n\nPuedo tomar tus datos aquí mismo y enviarlos, o puedes escribir a ' + CONFIG.email + ' directamente.',
-      chips: ['Book a session']
+      chips: [{ book: true }]
     },
     {
+      id: 'concierge',
       file: 'kb/concierge.md',
       keys: ['what are you', 'are you a bot', 'are you human', 'are you ai', 'how do you work',
              'who am i talking to', 'is this a chatbot', 'can i get one', 'this widget', 'this chat',
@@ -145,17 +180,45 @@
              'como funcionas', 'como te hicieron', 'quiero uno de estos'],
       en: 'I am SAKU Concierge, one of the 27 agents, and I am the demo.\n\nThe rule I run on: answer only from the knowledge base, cite the article under every answer, and when the KB is silent, escalate instead of inventing. That is why there is a source line under each reply.\n\nEvery question I cannot answer gets logged as a gap. The gap log is the roadmap for what to write next, which is how the knowledge base gets smarter every month. Same agent, pointed at your business instead of this one.',
       es: 'Soy SAKU Concierge, uno de los 27 agentes, y soy la demo.\n\nLa regla con la que funciono: responder solo desde la base de conocimiento, citar el artículo debajo de cada respuesta y, cuando la base no cubre algo, escalar en vez de inventar. Por eso hay una línea de fuente bajo cada respuesta.\n\nCada pregunta que no puedo responder se registra como hueco. Ese registro es la hoja de ruta de qué escribir después, y así la base se vuelve más lista cada mes. El mismo agente, apuntado a tu negocio en vez de a este.',
-      chips: ['Can I get one?', 'Book a session']
+      chips: [
+        { to: 'engine', en: 'Who else is in the crew?', es: '¿Quién más hay en el equipo?' },
+        { book: true }
+      ]
     },
     {
+      id: 'contact',
       file: 'kb/contact.md',
       keys: ['email', 'contact', 'reach you', 'phone', 'address', 'get in touch', 'write to you',
              'correo', 'contacto', 'telefono', 'direccion', 'escribir'],
       en: 'Email: ' + CONFIG.email + '. Replies come within one business day.\n\nNo phone number or office address is published on this site, so I am not going to make one up.',
       es: 'Email: ' + CONFIG.email + '. Las respuestas llegan en un día laborable.\n\nEn esta web no hay teléfono ni dirección publicados, así que no me los voy a inventar.',
-      chips: ['Book a session']
+      chips: [{ book: true }]
     }
   ];
+
+  var KB_BY_ID = {};
+  KB.forEach(function (e) { KB_BY_ID[e.id] = e; });
+
+  var STARTERS = [
+    { to: 'what-saku-is', en: 'What do you actually do?', es: '¿Qué hacéis exactamente?' },
+    { to: 'pricing', en: 'How much is it?', es: '¿Cuánto cuesta?' },
+    { to: 'workshop', en: 'What is the workshop?', es: '¿Qué es el workshop?' },
+    { book: true }
+  ];
+
+  /* Short label per article, used when a question straddles two of them. */
+  var TOPIC = {
+    'what-saku-is': { en: 'What Saku AI is', es: 'Qué es Saku AI' },
+    'engine': { en: 'The engine', es: 'El motor' },
+    'method': { en: 'The method', es: 'El método' },
+    'industries': { en: 'Industries', es: 'Industrias' },
+    'workshop': { en: 'The workshop', es: 'El workshop' },
+    'pricing': { en: 'Pricing', es: 'Precios' },
+    'proof': { en: 'Results', es: 'Resultados' },
+    'booking': { en: 'Booking a call', es: 'Agendar una llamada' },
+    'concierge': { en: 'What I am', es: 'Qué soy yo' },
+    'contact': { en: 'Contact', es: 'Contacto' }
+  };
 
   /* ==================================================================
      2. LANGUAGE + TEXT UTILITIES
@@ -166,10 +229,17 @@
     'hola', 'buenas', 'gracias', 'quiero', 'necesito', 'puedo', 'puedes', 'tenéis', 'teneis',
     'hacéis', 'haceis', 'sois', 'vuestro', 'vuestra', 'precio', 'gratis', 'empresa', 'negocio'];
 
+  /* Words too common to carry meaning. They still participate in phrase and
+     in-order matching; they just cannot earn points on their own. The Spanish
+     half matters as much as the English: without it, "que" alone drags every
+     Spanish question toward whichever article happens to have the most keys. */
   var STOP = ['the', 'a', 'an', 'is', 'are', 'do', 'does', 'you', 'your', 'i', 'my', 'me', 'we',
     'to', 'of', 'for', 'and', 'in', 'on', 'it', 'this', 'that', 'can', 'could', 'would', 'what',
-    'how', 'about', 'with', 'have', 'has', 'please', 'tell', 'give', 'any', 'some', 'de', 'el',
-    'la', 'y', 'o', 'un', 'una'];
+    'how', 'about', 'with', 'have', 'has', 'please', 'tell', 'give', 'any', 'some', 'so', 'really',
+    'actually', 'exactly', 'just', 'there', 'here', 'be', 'am',
+    'de', 'del', 'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'y', 'o', 'en', 'al',
+    'se', 'su', 'sus', 'tu', 'mi', 'te', 'lo', 'por', 'para', 'con', 'que', 'es', 'son', 'esto',
+    'esta', 'este', 'eso', 'esa', 'ese', 'muy', 'mas', 'hay', 'sobre', 'todo', 'toda'];
 
   function norm(s) {
     return String(s || '')
@@ -205,27 +275,57 @@
      3. RETRIEVAL — score the query against the KB
      ================================================================== */
 
+  /* Are all of a key's words present in the query, in order, gaps allowed?
+     This is what lets "what do you actually do" match the key "what do you do".
+     It runs on the UNFILTERED tokens, because keys like that one are made
+     entirely of stopwords and would otherwise score zero. */
+  function inOrder(keyTokens, queryTokens) {
+    var k = 0;
+    for (var i = 0; i < queryTokens.length && k < keyTokens.length; i++) {
+      if (queryTokens[i] === keyTokens[k]) k++;
+    }
+    return k === keyTokens.length;
+  }
+
   function retrieve(query) {
     var q = norm(query);
-    var qt = tokens(query).filter(function (t) { return STOP.indexOf(t) === -1; });
-    if (!qt.length) return null;
+    var qAll = tokens(query);
+    if (!qAll.length) return null;
+    var qContent = qAll.filter(function (w) { return STOP.indexOf(w) === -1; });
 
     var ranked = KB.map(function (entry) {
       var score = 0;
       for (var i = 0; i < entry.keys.length; i++) {
         var kw = norm(entry.keys[i]);
         var kt = kw.split(' ');
+
         if (kt.length > 1) {
+          var ktContent = kt.filter(function (w) { return STOP.indexOf(w) === -1; });
+
           if (q.indexOf(kw) !== -1) {
-            score += 4 * kt.length;
+            score += 4 * kt.length;                      // exact phrase
+          } else if (inOrder(kt, qAll)) {
+            score += 3 * kt.length;                      // every word, in order, filler between
+          } else if (ktContent.length >= 2 && inOrder(ktContent, qContent)) {
+            // Two meaning words minimum, scored on those words alone. A key
+            // whose only real word is something as generic as "work" must not
+            // claim a question: "how many people work here" is not about proof.
+            score += 2.2 * ktContent.length;
           } else {
-            var partial = 0;
-            for (var j = 0; j < kt.length; j++) if (qt.indexOf(kt[j]) !== -1) partial++;
-            if (partial === kt.length) score += 2.5 * kt.length;
-            else if (partial > 0) score += 0.7 * partial;
+            var present = 0, contentPresent = 0, contentTotal = ktContent.length;
+            for (var j = 0; j < kt.length; j++) {
+              if (qAll.indexOf(kt[j]) !== -1) {
+                present++;
+                if (STOP.indexOf(kt[j]) === -1) contentPresent++;
+              }
+            }
+            if (present === kt.length) score += 2.5 * kt.length;   // all words, any order
+            else if (contentPresent > 0) score += 0.7 * contentPresent;
+            // Stopword-only overlap earns nothing: "what"/"do"/"que" must not rank.
+            else if (contentTotal === 0 && present > 0) score += 0.2 * present;
           }
-        } else if (qt.indexOf(kw) !== -1) {
-          score += 3;
+        } else if (qAll.indexOf(kw) !== -1) {
+          score += STOP.indexOf(kw) === -1 ? 3 : 0.5;
         }
       }
       return { entry: entry, score: score };
@@ -260,12 +360,13 @@
     cancel: ['cancel', 'nevermind', 'never mind', 'stop', 'forget it', 'cancelar', 'olvidalo', 'dejalo']
   };
 
+  /* Word-boundary matching, not substring. Plain indexOf found "yo" inside
+     "are you a bot" and greeted the visitor instead of answering. */
   function matchIntent(name, text) {
-    var q = norm(text);
+    var q = ' ' + norm(text) + ' ';
     var list = INTENT[name];
     for (var i = 0; i < list.length; i++) {
-      var k = norm(list[i]);
-      if (q === k || q.indexOf(k) !== -1) return true;
+      if (q.indexOf(' ' + norm(list[i]) + ' ') !== -1) return true;
     }
     return false;
   }
@@ -292,7 +393,6 @@
       escalate: 'That is not in my knowledge base, and I do not guess.\n\nI have logged it as a gap. Those go to Andrés and become the next article. Two ways forward: he answers you by email, or you put it to him on a 30-minute call.',
       sensitive: 'That one goes to a human, regardless of what my knowledge base says. It is the rule I run on.\n\nWrite to ' + CONFIG.email + ', or leave your details here and Andrés comes back to you within one business day.',
       human: 'Fair. Andrés handles these himself.\n\nLeave your details here and he replies within one business day, or write to ' + CONFIG.email + '.',
-      also: 'I can also cover',
       chipEmail: 'Have him email me',
       chipBook: 'Book a session',
       askName: 'Let us get you on the calendar. What is your name?',
@@ -315,8 +415,7 @@
       gapNote: 'Gap logged',
       sourceLabel: 'SOURCE',
       confHigh: 'HIGH',
-      confMed: 'MED',
-      starters: ['What do you actually do?', 'How much is it?', 'What is the workshop?', 'Book a session']
+      confMed: 'MED'
     },
     es: {
       title: 'CONCIERGE',
@@ -335,7 +434,6 @@
       escalate: 'Eso no está en mi base de conocimiento, y no adivino.\n\nLo he registrado como hueco. Esos van a Andrés y se convierten en el próximo artículo. Dos caminos: te responde por email, o se lo planteas en una llamada de 30 minutos.',
       sensitive: 'Eso va a un humano, diga lo que diga mi base de conocimiento. Es la regla con la que funciono.\n\nEscribe a ' + CONFIG.email + ', o déjame tus datos y Andrés te contesta en un día laborable.',
       human: 'Justo. Andrés lleva esto en persona.\n\nDéjame tus datos y te responde en un día laborable, o escribe a ' + CONFIG.email + '.',
-      also: 'También puedo cubrir',
       chipEmail: 'Que me escriba',
       chipBook: 'Reservar sesión',
       askName: 'Vamos a ponerte en el calendario. ¿Cómo te llamas?',
@@ -358,8 +456,7 @@
       gapNote: 'Hueco registrado',
       sourceLabel: 'FUENTE',
       confHigh: 'ALTA',
-      confMed: 'MEDIA',
-      starters: ['¿Qué hacéis exactamente?', '¿Cuánto cuesta?', '¿Qué es el workshop?', 'Reservar sesión']
+      confMed: 'MEDIA'
     }
   };
 
@@ -673,6 +770,15 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
 
+  /* Normalise every chip shape into {label, value}. Values starting with
+     "kb:" or "__" are directives the router honours without retrieval. */
+  function chipOf(ch) {
+    if (typeof ch === 'string') return { label: ch, value: ch };
+    if (ch.book) return { label: t().chipBook, value: '__book__' };
+    if (ch.to) return { label: ch[state.lang] || ch.en, value: 'kb:' + ch.to };
+    return { label: ch.label, value: ch.value || ch.label };
+  }
+
   function addUser(text) {
     var el = document.createElement('div');
     el.className = 'sk-turn sk-user';
@@ -706,8 +812,9 @@
 
     if (opts.chips && opts.chips.length) {
       body += '<div class="sk-chips">' + opts.chips.map(function (ch) {
-        return '<button class="sk-chip" type="button" data-v="' + esc(ch.value || ch) + '">' +
-          esc(ch.label || ch) + '</button>';
+        var c = chipOf(ch);
+        return '<button class="sk-chip" type="button" data-v="' + esc(c.value) + '">' +
+          esc(c.label) + '</button>';
       }).join('') + '</div>';
     }
 
@@ -770,7 +877,7 @@
           addAgent(t().greetOpen, {
             source: 'kb/concierge.md',
             confidence: 'high',
-            chips: t().starters
+            chips: STARTERS
           });
         }, REDUCED ? 200 : 380);
       }
@@ -799,8 +906,17 @@
   }
 
   function handle(text, displayAs) {
-    addUser(displayAs || text);
-    state.history.push({ role: 'user', text: text });
+    var label = displayAs || text;
+    addUser(label);
+    state.history.push({ role: 'user', text: label });
+
+    /* Chip directives resolve straight to their article. A chip is a
+       promise the visitor can see, so it must never miss. */
+    if (text === '__book__') { startBooking(); return; }
+    if (text.indexOf('kb:') === 0) {
+      var target = KB_BY_ID[text.slice(3)];
+      if (target) { reply(function () { renderEntry(target, 'high'); }); return; }
+    }
 
     // Language mirrors the visitor, exactly like the Derby concierge rule.
     var detected = detectLang(text);
@@ -818,13 +934,13 @@
     }
     if (matchIntent('sensitive', text)) {
       reply(function () {
-        addAgent(t().sensitive, { chips: [t().chipBook] });
+        addAgent(t().sensitive, { chips: [{ book: true }] });
       });
       return;
     }
     if (matchIntent('human', text)) {
       reply(function () {
-        addAgent(t().human, { chips: [t().chipBook] });
+        addAgent(t().human, { chips: [{ book: true }] });
       });
       return;
     }
@@ -833,11 +949,11 @@
       return;
     }
     if (matchIntent('greeting', text) && tokens(text).length <= 3) {
-      reply(function () { addAgent(t().greeting, { chips: t().starters }); });
+      reply(function () { addAgent(t().greeting, { chips: STARTERS }); });
       return;
     }
     if (matchIntent('thanks', text) && tokens(text).length <= 3) {
-      reply(function () { addAgent(t().thanks, { chips: [t().chipBook] }); });
+      reply(function () { addAgent(t().thanks, { chips: [{ book: true }] }); });
       return;
     }
 
@@ -900,18 +1016,24 @@
       return;
     }
 
-    var chips = (hit.entry.chips || []).slice();
-    var extra = '';
-    if (hit.alt) {
-      var altName = hit.alt.file.replace('kb/', '').replace('.md', '').replace(/-/g, ' ');
-      extra = '<p style="font-size:12.5px;color:#8D8575;margin:9px 0 0;line-height:1.55">' +
-        esc(t().also) + ' <b style="color:#A54A2B;font-weight:500">' + esc(altName) + '</b>.</p>';
+    renderEntry(hit.entry, hit.confidence, hit.alt);
+  }
+
+  /* Single place an article becomes a message, used by both retrieval and
+     chip directives, so a chip and a typed question render identically. */
+  function renderEntry(entry, confidence, alt) {
+    var chips = (entry.chips || []).slice();
+
+    if (alt && TOPIC[alt.id]) {
+      var already = chips.some(function (c) { return c && c.to === alt.id; });
+      if (!already && alt.id !== entry.id) {
+        chips.unshift({ to: alt.id, en: TOPIC[alt.id].en, es: TOPIC[alt.id].es });
+      }
     }
 
-    addAgent(hit.entry[state.lang] || hit.entry.en, {
-      source: hit.entry.file,
-      confidence: hit.confidence,
-      extraHtml: extra,
+    addAgent(entry[state.lang] || entry.en, {
+      source: entry.file,
+      confidence: confidence,
       chips: chips
     });
   }
@@ -1133,7 +1255,7 @@
         sendEl.disabled = false;
         state.gaps = [];
         persist();
-        addAgent(c.sent, { chips: [c.starters[0], c.starters[2]] });
+        addAgent(c.sent, { chips: [STARTERS[0], STARTERS[2]] });
       })
       .catch(function () {
         dots.remove();
