@@ -387,7 +387,6 @@
       open: 'Chat with the Concierge',
       nudge: 'Ask me anything about Saku AI.',
       greetOpen: 'Hello. I am the SAKU Concierge, the agent demo on this site.\n\nI answer only from a fixed knowledge base and cite the article under every answer. Ask away, or I can book your call right here.',
-      greetBack: 'Back again. What do you need?',
       greeting: 'Hello. Ask me about Saku AI, or say "book a session" and I will take your details.',
       thanks: 'Any time. Want me to put you on the calendar while you are here?',
       escalate: 'That is not in my knowledge base, and I do not guess.\n\nI have logged it as a gap. Those go to Andrés and become the next article. Two ways forward: he answers you by email, or you put it to him on a 30-minute call.',
@@ -428,7 +427,6 @@
       open: 'Hablar con el Concierge',
       nudge: 'Pregúntame lo que quieras sobre Saku AI.',
       greetOpen: 'Hola. Soy el SAKU Concierge, la demo de agente de esta web.\n\nRespondo solo desde una base de conocimiento fija y cito el artículo bajo cada respuesta. Pregunta lo que quieras, o te agendo la llamada aquí mismo.',
-      greetBack: 'De vuelta. ¿Qué necesitas?',
       greeting: 'Hola. Pregúntame sobre Saku AI, o dime "reservar sesión" y tomo tus datos.',
       thanks: 'Cuando quieras. ¿Te pongo en el calendario ya que estás?',
       escalate: 'Eso no está en mi base de conocimiento, y no adivino.\n\nLo he registrado como hueco. Esos van a Andrés y se convierten en el próximo artículo. Dos caminos: te responde por email, o se lo planteas en una llamada de 30 minutos.',
@@ -474,9 +472,12 @@
     draft: {},
     gaps: [],
     history: [],
+    turns: [],           // the transcript, replayed after a page navigation
     busy: false,
     greeted: false
   };
+
+  var MAX_TURNS = 30;
 
   try {
     var saved = sessionStorage.getItem('saku-concierge');
@@ -485,15 +486,29 @@
       state.lang = p.lang || state.lang;
       state.gaps = p.gaps || [];
       state.greeted = !!p.greeted;
+      state.turns = Array.isArray(p.turns) ? p.turns : [];
     }
   } catch (e) { /* sessionStorage unavailable, run stateless */ }
 
   function persist() {
     try {
       sessionStorage.setItem('saku-concierge', JSON.stringify({
-        lang: state.lang, gaps: state.gaps, greeted: state.greeted
+        lang: state.lang,
+        gaps: state.gaps,
+        greeted: state.greeted,
+        turns: state.turns.slice(-MAX_TURNS)
       }));
     } catch (e) { /* no-op */ }
+  }
+
+  /* Record a turn so the conversation survives a page navigation. Turns
+     produced mid-booking are skipped: their prompts only make sense with the
+     in-memory draft behind them, and that draft does not cross a page load. */
+  function recordTurn(rec) {
+    if (state.flow) return;
+    state.turns.push(rec);
+    if (state.turns.length > MAX_TURNS) state.turns = state.turns.slice(-MAX_TURNS);
+    persist();
   }
 
   /* ==================================================================
@@ -779,15 +794,16 @@
     return { label: ch.label, value: ch.value || ch.label };
   }
 
-  function addUser(text) {
+  function addUser(text, replaying) {
     var el = document.createElement('div');
     el.className = 'sk-turn sk-user';
     el.innerHTML = '<div class="sk-bubble">' + esc(text) + '</div>';
     logEl.appendChild(el);
     scrollDown();
+    if (!replaying) recordTurn({ r: 'u', t: text });
   }
 
-  /* opts: { source, confidence, gap, chips, html, onChip } */
+  /* opts: { source, confidence, gap, chips, html, onChip, gapQuestion, replaying } */
   function addAgent(text, opts) {
     opts = opts || {};
     var el = document.createElement('div');
@@ -834,7 +850,39 @@
     logEl.appendChild(el);
     scrollDown();
     if (!opts.html) state.history.push({ role: 'agent', text: text });
+
+    // extraHtml (the booking recap, the failover panel) is deliberately not
+    // recorded: those only mean anything alongside live in-memory state.
+    if (!opts.replaying && !opts.html && !opts.extraHtml) {
+      recordTurn({
+        r: 'a', t: text, f: opts.source || null, c: opts.confidence || null,
+        g: !!opts.gap, ch: opts.chips || null, q: opts.gapQuestion || null
+      });
+    }
     return el;
+  }
+
+  /* Rebuild the transcript after a page navigation, through the same
+     renderers, so a restored turn is indistinguishable from a live one. */
+  function restoreTranscript() {
+    if (!state.turns.length) return 0;
+    var restored = 0;
+    state.turns.forEach(function (rec) {
+      if (rec.r === 'u') { addUser(rec.t, true); restored++; return; }
+      addAgent(rec.t, {
+        source: rec.f, confidence: rec.c, gap: rec.g, chips: rec.ch,
+        replaying: true,
+        onChip: rec.g ? function (v) {
+          if (v === '__email__') startEmailOnly(rec.q || rec.t);
+          else handle(v, t().chipBook);
+        } : undefined
+      });
+      restored++;
+    });
+    state.flow = null;
+    state.step = null;
+    state.draft = {};
+    return restored;
   }
 
   function typing() {
@@ -870,7 +918,10 @@
     launchEl.setAttribute('aria-expanded', String(open));
     if (open) {
       hideNudge();
-      if (!state.greeted) {
+      /* The invariant: an open panel is never empty. Greeting used to be
+         gated on a "have we greeted before" flag that outlived the transcript,
+         so a second page load opened to a blank window. Gate on the log. */
+      if (!logEl.children.length) {
         state.greeted = true;
         persist();
         reply(function () {
@@ -1004,6 +1055,7 @@
       addAgent(t().escalate, {
         source: question.length > 46 ? question.slice(0, 46) + '…' : question,
         gap: true,
+        gapQuestion: question,
         chips: [
           { label: t().chipEmail, value: '__email__' },
           { label: t().chipBook, value: '__book__' }
@@ -1407,6 +1459,7 @@
 
   function boot() {
     build();
+    restoreTranscript();
     hardenForms();
     if (!state.greeted && CONFIG.nudgeAfterMs) {
       setTimeout(showNudge, CONFIG.nudgeAfterMs);
